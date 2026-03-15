@@ -1,0 +1,48 @@
+body {
+    padding-top: 70px;
+}
+
+.header-orange {
+    background-color: #ff7a00;
+}
+
+.hero-section {
+    background-color: #fff3e6;
+    padding: 60px 20px;
+}
+
+.offcanvas .nav-link {
+    color: white;
+    transition: 0.3s;
+}
+
+.offcanvas .nav-link:hover {
+    background-color: rgba(255,255,255,0.2);
+    padding-left: 10px;
+    border-radius: 5px;
+}
+/* Tiny extra style to make language buttons distinct */
+.lang-btn {
+    min-width: 60px;
+    font-weight: 500;
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.lang-btn.active {
+    background-color: #ffc107;
+    color: #000 !important;
+    border-color: #ffc107;
+}
+.navbar-brand {
+    font-size: 1.1rem;
+    white-space: normal;
+    line-height: 1.2;
+}
+/* ensure offcanvas links are readable */
+.offcanvas-body .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+}
+.offcanvas-body .nav-link:hover {
+    color: white !important;
+    text-decoration: underline;
+}
