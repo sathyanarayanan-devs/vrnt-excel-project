@@ -84,21 +84,43 @@ async function fetchUsers() {
     const usernameFilter = document.getElementById('uname').value
         .trim().toLowerCase();
 
+    // ✅ FIX 1 — get username from localStorage
+    const username = localStorage.getItem('username');
+
     showLoading(true);
 
     try {
+        // ✅ FIX 2 — pass username as query param
         const response = await fetch(
-            `${API_BASE}/api/auth/users`, {
+            `${API_BASE}/api/auth/users?username=${username}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
 
+        // ✅ FIX 3 — handle HTTP error status
         if (!response.ok) {
-            throw new Error('Server error: ' + response.status);
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const result = await response.json();
-        let users = Array.isArray(result) ? result : result.data || [];
+
+        // ✅ FIX 4 — handle success:false in response body
+        if (result && result.success === false) {
+            throw new Error(result.message || 'Server returned an error');
+        }
+
+        // ✅ FIX 5 — safely extract users array
+        let users = [];
+        if (Array.isArray(result)) {
+            users = result;
+        } else if (Array.isArray(result.data)) {
+            users = result.data;
+        } else if (Array.isArray(result.users)) {
+            users = result.users;
+        } else {
+            console.warn('Unexpected response structure:', result);
+            throw new Error('Unexpected data format from server');
+        }
 
         // ── Filter client-side ────────────────────────
         if (roleFilter) {
@@ -119,18 +141,32 @@ async function fetchUsers() {
         renderTable();
 
     } catch (error) {
-        console.error('Fetch error:', error);
-        showNotification(
-            'Cannot connect to server. ' +
-            'Make sure Spring Boot is running on port 8080.',
-            'danger');
+        // ✅ FIX 6 — show exact error message
+        console.error('Error name   :', error.name);
+        console.error('Error message:', error.message);
+
+        let userMessage = '';
+        if (error instanceof TypeError) {
+            userMessage = '❌ Cannot reach the server. ' +
+                'Make sure Spring Boot is running on port 8080.';
+        } else if (error.message.includes('HTTP error')) {
+            userMessage = '⚠️ Server responded with an error: '
+                + error.message;
+        } else if (error.message.includes('Unexpected data format')) {
+            userMessage = '⚠️ Server returned unexpected data. ' +
+                'Check the API response structure.';
+        } else {
+            userMessage = '⚠️ ' + error.message;
+        }
+
+        showNotification(userMessage, 'danger');
         currentResults = [];
         renderTable();
+
     } finally {
         showLoading(false);
     }
 }
-
 // ── VIEW ALL (clears filters, loads every user) ───────
 function viewAll() {
     document.getElementById('role').value  = '';

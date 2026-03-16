@@ -1,5 +1,6 @@
 package com.example.Vrnt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,6 +46,7 @@ public class User {
     private String department;
 
     @Column(nullable = false, length = 255)
+    @JsonIgnore
     private String password;         // stored as SHA-256 hash
 
     @Column(name = "created_at", nullable = false, updatable = false)
