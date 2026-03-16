@@ -48,7 +48,16 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<?> getAllUsers(@RequestParam String username) {
+        // Check role from database - cant be faked like localStorage
+        User requestingUser = userService.getUserByUsername(username);
+
+        if(!requestingUser.getRole().equalsIgnoreCase("teacher")){
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.fail("Access Denied - Teachers only"));
+        }
+
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }

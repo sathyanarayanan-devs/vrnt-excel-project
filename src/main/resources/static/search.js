@@ -21,6 +21,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    // ── BLOCK STUDENT FROM ACCESS SEARCH PAGE ──────────────────────────────────────
+    if(role === 'student'){
+        alert('⛔ Access Denied! This page is for teachers only.');
+        window.location.href='index.html';
+        return;
+    }
+
     // ── Show logged-in user info ──────────────────────
     document.getElementById('userNameDisplay').textContent =
         fullName || username;
