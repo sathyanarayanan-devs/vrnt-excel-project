@@ -1,193 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="register.css">
-    <style>
-        .lang-btn { min-width: 60px; font-weight: 500; border: 1px solid rgba(0,0,0,0.2); }
-        .lang-btn.active { background-color: #ffc107; color: #000 !important; border-color: #ffc107; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veda Rakshana Nidhi Trust – Application Form</title>
+  <meta name="description"
+    content="Official Application Form for Veda Rakshana Nidhi Trust – Veda Certification Registration" />
+  <link rel="stylesheet" href="styles/register.css" />
 </head>
+
 <body>
-<div class="container">
-    <!-- Language selector row -->
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-6">
-            <div class="d-flex justify-content-end gap-1 mb-3">
-                <button class="btn btn-sm btn-outline-secondary lang-btn" data-lang="en">English</button>
-                <button class="btn btn-sm btn-outline-secondary lang-btn" data-lang="ta">தமிழ்</button>
-                <button class="btn btn-sm btn-outline-secondary lang-btn" data-lang="te">తెలుగు</button>
-                <button class="btn btn-sm btn-outline-secondary lang-btn" data-lang="hi">हिन्दी</button>
-            </div>
-        </div>
+
+  <header class="hero-header" role="banner">
+    <div class="header-content" style="padding: 0; max-width: 100%;">
+      <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust"
+style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
     </div>
-
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-6">
-            <div class="register-container">
-                <div class="register-header">
-                    <img src="guru-banner.jpg" alt="Guru Banner" class="mb-4" style="max-width: 350px;">
-                    <img src="logo.png" alt="VRNT Logo" class="mb-4" style="max-width: 250px;">
-                    <h2 data-i18n="register.title">Create Account</h2>
-                    <p data-i18n="register.subtitle">Join our community and get started</p>
-                </div>
-
-                <div class="register-body">
-                    <form id="registerForm">
-                        <div class="row g-3">
-                            <!-- Role Selection -->
-                            <div class="col-md-6">
-                                <label for="role" class="form-label" data-i18n="register.roleLabel">Role *</label>
-                                <select class="form-select" name="Role" id="role" required>
-                                    <option selected disabled value="" data-i18n="register.roleDefault">Select Role</option>
-                                    <option value="student" data-i18n="register.roleStudent">Student</option>
-                                    <option value="teacher" data-i18n="register.roleTeacher">Teacher</option>
-                                </select>
-                                <div class="form-text" data-i18n="register.roleHelp">Select your role in the system</div>
-                            </div>
-
-                            <!-- Username -->
-                            <div class="col-md-6">
-                                <label for="uname" class="form-label" data-i18n="register.usernameLabel">Username *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-                                    <input type="text" class="form-control" name="username" id="uname" autocomplete="username" required
-                                           data-i18n-placeholder="register.usernamePlaceholder" placeholder="Enter username">
-                                </div>
-                                <div class="form-text" data-i18n="register.usernameHelp">Choose a unique username</div>
-                            </div>
-
-                            <!-- Full Name -->
-                            <div class="col-12">
-                                <label for="fname" class="form-label" data-i18n="register.fullnameLabel">Full Name *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control" name="fullname" id="fname" autocomplete="name" required
-                                           data-i18n-placeholder="register.fullnamePlaceholder" placeholder="Enter your full name">
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-12">
-                                <label for="email" class="form-label" data-i18n="register.emailLabel">Email Address *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control" name="email_address" id="email" autocomplete="email" required
-                                           data-i18n-placeholder="register.emailPlaceholder" placeholder="Enter your email">
-                                </div>
-                                <div class="form-text" data-i18n="register.emailHelp">We'll never share your email with anyone else</div>
-                            </div>
-
-                            <!-- Gender -->
-                            <div class="col-12">
-                                <fieldset class="gender-fieldset">
-                                    <legend data-i18n="register.genderLegend">Gender *</legend>
-                                    <div class="gender-options">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
-                                            <label class="form-check-label" for="male" data-i18n="register.genderMale">Male</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                                            <label class="form-check-label" for="female" data-i18n="register.genderFemale">Female</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender" id="other" value="other">
-                                            <label class="form-check-label" for="other" data-i18n="register.genderOther">Other</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-
-                            <!-- Department -->
-                            <div class="col-12">
-                                <label for="course" class="form-label" data-i18n="register.deptLabel">Department *</label>
-                                <select class="form-select" name="Department" id="course" required>
-                                    <option disabled selected value="" data-i18n="register.deptDefault">Select Your Department</option>
-                                    <option value="be cse" data-i18n="register.deptCSE">B.E Computer Science & Engineering</option>
-                                    <option value="be ece" data-i18n="register.deptECE">B.E Electronics & Communication Engineering</option>
-                                    <option value="bsc cs" data-i18n="register.deptCS">B.Sc Computer Science</option>
-                                    <option value="bca" data-i18n="register.deptBCA">Bachelor of Computer Applications</option>
-                                    <option value="other" data-i18n="register.deptOther">Other Department</option>
-                                </select>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="col-md-6">
-                                <label for="pwd" class="form-label" data-i18n="register.passwordLabel">Password *</label>
-                                <div class="password-wrapper">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                        <input type="password" class="form-control" name="password" id="pwd" autocomplete="new-password" required minlength="6"
-                                               data-i18n-placeholder="register.passwordPlaceholder" placeholder="Create password">
-                                    </div>
-                                    <button type="button" class="password-toggle" id="togglePassword1"><i class="bi bi-eye"></i></button>
-                                </div>
-                                <div class="form-text" data-i18n="register.passwordHelp">Minimum 6 characters</div>
-                            </div>
-
-                            <!-- Confirm Password -->
-                            <div class="col-md-6">
-                                <label for="c-pwd" class="form-label" data-i18n="register.confirmLabel">Confirm Password *</label>
-                                <div class="password-wrapper">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                                        <input type="password" class="form-control" name="confirm_password" id="c-pwd" autocomplete="new-password" required minlength="6"
-                                               data-i18n-placeholder="register.confirmPlaceholder" placeholder="Confirm password">
-                                    </div>
-                                    <button type="button" class="password-toggle" id="togglePassword2"><i class="bi bi-eye"></i></button>
-                                </div>
-                                <div class="form-text" data-i18n="register.confirmHelp">Re-enter your password</div>
-                            </div>
-                        </div>
-
-                        <!-- Terms and Conditions -->
-                        <div class="form-check terms-check">
-                            <input class="form-check-input" type="checkbox" id="terms" required>
-                            <label class="form-check-label" for="terms">
-                                <span data-i18n="register.agreePrefix">I agree to the</span>
-                                <a href="#" class="text-decoration-none" data-i18n="register.terms">Terms of Service</a>
-                                <span data-i18n="register.and">and</span>
-                                <a href="#" class="text-decoration-none" data-i18n="register.privacy">Privacy Policy</a>
-                            </label>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary btn-register">
-                            <i class="bi bi-person-plus me-2"></i> <span data-i18n="register.createBtn">Create Account</span>
-                        </button>
-                    </form>
-
-                    <div class="login-link">
-                        <p><span data-i18n="register.alreadyAccount">Already Have an Account?</span> <a href="index.html" data-i18n="register.loginHere">Login Here</a></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center mt-4">
-                <p class="text-muted small">
-                    <span data-i18n="register.agreePrefix">By creating an account, you agree to our</span>
-                    <a href="#" class="text-decoration-none" data-i18n="register.terms">Terms of Service</a>
-                    <span data-i18n="register.and">and</span>
-                    <a href="#" class="text-decoration-none" data-i18n="register.privacy">Privacy Policy</a>
-                </p>
-            </div>
-        </div>
+    <!-- LANGUAGE SELECTOR BUTTONS (right side) -->
+    <div class="ms-auto d-flex gap-1 lang-switcher">
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="ta">தமிழ்</button>
+      <button class="lang-btn" data-lang="te">తెలుగు</button>
+      <button class="lang-btn" data-lang="hi">हिन्दी</button>
     </div>
-</div>
+    <h2 class="header-main-title">Veda Rakshana Nidhi Trust</h2>
+  </header>
+    
+  <!-- ══════════════════════════════════════════════════════
+     PAGE WRAPPER
+════════════════════════════════════════════════════════ -->
+  <main class="page-wrapper" role="main">
+    <div class="form-card" id="applicationFormCard">
 
-<!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Translation script (shared) -->
-<script src="translator.js"></script>
-<!-- Custom register JS -->
-<script src="register.js"></script>
+      <!-- Step Progress (3 steps) -->
+      <div class="step-progress" aria-label="Form Progress">
+        <div class="step-item">
+          <div class="step-circle active">1</div>
+          <span class="step-label active" data-i18n="step_personal">Personal Details</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle">2</div>
+          <span class="step-label" data-i18n="step_preview">Preview</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-item">
+          <div class="step-circle">3</div>
+          <span class="step-label" data-i18n="step_submit">Submit</span>
+        </div>
+      </div>
+
+      <h2 class="form-card-title" data-i18n="form_title">Application Form</h2>
+
+      <form id="applicationForm" novalidate autocomplete="off">
+
+        <!-- ── SECTION 1: Personal Details ──────────────────── -->
+        <div class="section-title" data-i18n="section_personal">Personal Details</div>
+
+        <!-- Name as in Aadhaar -->
+        <p data-i18n="lbl_name_aadhaar" style="font-size:13px;color:#555;margin-bottom:10px;">Name as in Aadhaar</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first_name"><span data-i18n="lbl_first_name">First Name</span> <span
+                class="required-star">*</span></label>
+            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name"
+              data-i18n="hint_first_name" aria-required="true" autocomplete="given-name" />
+            <span class="error-msg" id="first_name_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="last_name"><span data-i18n="lbl_last_name">Last Name</span> <span
+                class="required-star">*</span></label>
+            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name"
+              data-i18n="hint_last_name" aria-required="true" autocomplete="family-name" />
+            <span class="error-msg" id="last_name_err"></span>
+          </div>
+        </div>
+
+        <!-- Mobile & Email -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="mobile"><span data-i18n="lbl_mobile">Mobile Number</span> <span
+                class="required-star">*</span></label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span
+                style="background:#FCF4E8;border:1px solid #ccc;padding:8px 10px;border-radius:4px;font-size:14px;font-weight:600;color:#8F5307;white-space:nowrap;">🇮🇳 +91</span>
+              <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="98765 43210" maxlength="10"
+                data-i18n="hint_mobile" inputmode="numeric" aria-required="true" autocomplete="tel" style="flex:1;" />
+            </div>
+            <span class="field-hint">10-digit Indian mobile (starts with 6, 7, 8 or 9)</span>
+            <span class="error-msg" id="mobile_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="email"><span data-i18n="lbl_email">Email ID</span> <span class="required-star">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="example@example.com"
+              data-i18n="hint_email" aria-required="true" autocomplete="email" />
+            <span class="error-msg" id="email_err"></span>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="section-title" style="margin-top:10px;"><span data-i18n="lbl_address">Address</span></div>
+        <div class="form-row single">
+          <div class="form-group">
+            <input type="text" id="street1" name="street1" class="form-control" placeholder="Street Address Line 1"
+              data-i18n="hint_street1" aria-label="Street Address Line 1" aria-required="true"
+              autocomplete="address-line1" />
+            <span class="error-msg" id="street1_err"></span>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <input type="text" id="street2" name="street2" class="form-control" data-i18n="hint_street2"
+              placeholder="Street Address Line 2 (optional)" aria-label="Street Address Line 2"
+              autocomplete="address-line2" />
+          </div>
+        </div>
+        <div class="form-row triple">
+          <div class="form-group">
+            <input type="text" id="city" name="city" class="form-control" placeholder="City / Town" aria-label="City"
+              data-i18n="hint_city" aria-required="true" autocomplete="address-level2" />
+            <span class="field-hint" data-i18n="lbl_city">City</span>
+            <span class="error-msg" id="city_err"></span>
+          </div>
+          <div class="form-group">
+            <input type="text" id="state" name="state" class="form-control" placeholder="State" aria-label="State"
+              data-i18n="hint_state" aria-required="true" autocomplete="address-level1" />
+            <span class="field-hint" data-i18n="lbl_state">State</span>
+            <span class="error-msg" id="state_err"></span>
+          </div>
+          <div class="form-group">
+            <input type="text" id="postal" name="postal" class="form-control" placeholder="PIN Code (6 digits)"
+              data-i18n="hint_postal" aria-label="PIN Code" aria-required="true" autocomplete="postal-code"
+              maxlength="6" inputmode="numeric" />
+            <span class="field-hint">PIN Code (6 digits)</span>
+            <span class="error-msg" id="postal_err"></span>
+          </div>
+        </div>
+
+        <!-- Aadhaar & DOB -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="aadhaar"><span data-i18n="lbl_aadhaar">Aadhaar Number</span> <span
+                class="required-star">*</span></label>
+            <input type="text" id="aadhaar" name="aadhaar" class="form-control" placeholder="12-digit Aadhaar number"
+              maxlength="12" inputmode="numeric" aria-required="true" />
+            <span class="error-msg" id="aadhaar_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="dob"><span data-i18n="lbl_dob">Date of Birth</span> <span class="required-star">*</span></label>
+            <input type="date" id="dob" name="dob" class="form-control" aria-required="true" autocomplete="bday" max="9999-12-31" />
+            <span class="error-msg" id="dob_err"></span>
+          </div>
+        </div>
+
+        <!-- ── SECTION 2: Vedic Details ──────────────────────── -->
+        <div class="section-title" data-i18n="section_vedic">Vedic Details</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vedham"><span data-i18n="lbl_vedham">Vedham</span> <span class="required-star">*</span></label>
+            <input type="text" id="vedham" name="vedham" class="form-control" aria-required="true" />
+            <span class="error-msg" id="vedham_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="shaka" data-i18n="lbl_shaka">Shaka</label>
+            <input type="text" id="shaka" name="shaka" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gothram"><span data-i18n="lbl_gothram">Gothram</span> <span
+                class="required-star">*</span></label>
+            <input type="text" id="gothram" name="gothram" class="form-control" aria-required="true" />
+            <span class="error-msg" id="gothram_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="soothram" data-i18n="lbl_soothram">Soothram</label>
+            <input type="text" id="soothram" name="soothram" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label for="patasalai" data-i18n="lbl_patasalai">Patasalai</label>
+            <input type="text" id="patasalai" name="patasalai" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label for="adhyapakar" data-i18n="lbl_adhyapakar">Veda Adhyapakar's Name</label>
+            <input type="text" id="adhyapakar" name="adhyapakar" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="certified_in" data-i18n="lbl_certified_in">Certified In</label>
+            <input type="text" id="certified_in" name="certified_in" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="year_cert" data-i18n="lbl_year_cert">Year of Certification</label>
+            <input type="text" id="year_cert" name="year_cert" class="form-control" placeholder="e.g., 2020"
+              data-i18n="hint_year" inputmode="numeric" maxlength="4" />
+            <span class="error-msg" id="year_cert_err"></span>
+          </div>
+        </div>
+
+        <!-- ── SECTION 3: Uploads ────────────────────────────── -->
+        <div class="section-title" data-i18n="section_upload">Document Upload</div>
+
+        <!-- Certificate Upload -->
+        <div class="form-group" style="margin-bottom:16px;">
+          <label data-i18n="lbl_cert_upload">Certificate Upload</label>
+          <div class="upload-zone" id="cert_zone" role="button" aria-label="Certificate Upload">
+            <input type="file" id="cert_file" name="cert_file" accept=".pdf,.jpg,.jpeg,.png"
+              aria-label="Certificate File" />
+            <span class="upload-icon">&#8683;</span>
+            <p class="upload-title" data-i18n="upload_title">Upload a File</p>
+            <p class="upload-hint">Drag and drop or click to choose (PDF, JPG, PNG)</p>
+          </div>
+          <span class="error-msg" id="cert_file_err"></span>
+        </div>
+
+        <!-- Passport Photo Upload -->
+        <div class="form-group" style="margin-bottom:24px;">
+          <label data-i18n="lbl_photo_upload">Passport Size Photo Upload</label>
+          <div class="upload-zone" id="photo_zone" role="button" aria-label="Passport Photo Upload">
+            <input type="file" id="photo_file" name="photo_file" accept=".jpg,.jpeg,.png"
+              aria-label="Passport Photo File" />
+            <span class="upload-icon">&#8683;</span>
+            <p class="upload-title" data-i18n="upload_title">Upload a File</p>
+            <p class="upload-hint">Drag and drop or click to choose (JPG, PNG)</p>
+          </div>
+          <span class="error-msg" id="photo_file_err"></span>
+        </div>
+
+        <!-- Preview Button -->
+        <button type="button" class="btn btn-primary" id="previewBtn" onclick="handlePreview()"
+          data-i18n="btn_preview">Preview
+          Application</button>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>© 2025 Veda Rakshana Nidhi Trust. All rights reserved. | 64/31, Subramaniam Street, West Mambalam, Chennai - 600
+      033</p>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════ -->
+  <script src="scripts/translator.js"></script>
+  <script src="scripts/validation.js"></script>
+  <script src="scripts/form.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initLanguage();
+      loadFormData(); // no-op: form always starts blank
+      attachRealtimeValidation();
+      initUploadZone('cert_zone', 'cert_file', 'cert');
+      initUploadZone('photo_zone', 'photo_file', 'photo');
+
+      // ── Enter key → move to next field ────────────────
+      attachEnterNavigation();
+    });
+
+    // Collect all focusable form inputs in tab order, attach Enter → next
+    function attachEnterNavigation() {
+      const selectors = 'input:not([type="file"]):not([type="submit"]):not([type="button"]), select, textarea';
+      const fields = Array.from(document.querySelectorAll(selectors))
+        .filter(el => !el.disabled && el.offsetParent !== null);
+
+      fields.forEach((field, idx) => {
+        field.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault(); // prevent form submit
+            const next = fields[idx + 1];
+            if (next) {
+              next.focus();
+            } else {
+              // Last field — trigger preview
+              handlePreview();
+            }
+          }
+        });
+      });
+    }
+
+    function handlePreview() {
+      if (!validateForm()) {
+        const firstErr = document.querySelector('.form-control.is-invalid');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      saveFormData();
+      window.location.href = 'preview.html';
+    }
+  </script>
 </body>
+
 </html>
