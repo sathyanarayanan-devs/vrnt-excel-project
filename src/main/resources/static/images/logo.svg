@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="220" viewBox="0 0 500 220" role="img" aria-label="VRNT logo placeholder">
+  <rect width="500" height="220" rx="20" fill="#ffffff"/>
+  <circle cx="120" cy="110" r="68" fill="#8b5e3c"/>
+  <circle cx="120" cy="110" r="42" fill="#f4d06f"/>
+  <rect x="220" y="58" width="180" height="18" rx="9" fill="#8b5e3c"/>
+  <rect x="220" y="92" width="150" height="18" rx="9" fill="#a96e2b"/>
+  <rect x="220" y="126" width="120" height="18" rx="9" fill="#c59b4c"/>
+  <text x="250" y="182" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#5d3b1a">VEDA RAKSHANA</text>
+</svg>

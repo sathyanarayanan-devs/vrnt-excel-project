@@ -1,8 +1,9 @@
 package com.example.Vrnt.Controller;
 
+import com.example.Vrnt.model.User;
+import com.example.Vrnt.security.JwtUtil;
 import com.example.Vrnt.service.ExcelService;
 import com.example.Vrnt.service.UserService;
-import com.example.Vrnt.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -10,8 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/api/admin/excel")
@@ -19,94 +21,120 @@ import java.io.ByteArrayInputStream;
 @RequiredArgsConstructor
 public class ExcelController {
 
-    private final ExcelService excelService;
-    private final UserService  userService;
+        private final ExcelService excelService;
+        private final UserService userService;
+        private final JwtUtil jwtUtil;
 
-    // ── TEACHER CHECK ─────────────────────────────────────
-    private void validateTeacher(String username) {
-        User user = userService.getUserByUsername(username);
-        if (!user.getRole().equalsIgnoreCase("teacher")) {
-            throw new RuntimeException(
-                    "Access Denied — Teachers only");
+        private void validateAdmin(String username,
+                        @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+                String resolvedUsername = username;
+
+                if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                        if (!jwtUtil.validateToken(authorizationHeader)) {
+                                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
+                        }
+
+                        if (!"admin".equalsIgnoreCase(jwtUtil.extractRole(authorizationHeader))) {
+                                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied — Admins only");
+                        }
+
+                        if (resolvedUsername == null || resolvedUsername.isBlank()) {
+                                resolvedUsername = jwtUtil.extractUsername(authorizationHeader);
+                        }
+                }
+
+                if (resolvedUsername == null || resolvedUsername.isBlank()) {
+                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing or invalid admin identity");
+                }
+
+                User user = resolveUser(resolvedUsername);
+                if (user == null || !"admin".equalsIgnoreCase(user.getRole())) {
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied — Admins only");
+                }
         }
-    }
 
-    // ── EXPORT ALL USERS ──────────────────────────────────
-    // GET /api/admin/excel/export/all?username=teacherUsername
-    @GetMapping("/export/all")
-    public ResponseEntity<InputStreamResource> exportAll(
-            @RequestParam String username) {
+        private User resolveUser(String value) {
+                if (value == null || value.isBlank()) {
+                        return null;
+                }
 
-        validateTeacher(username);
+                try {
+                        return userService.getUserByUsername(value);
+                } catch (RuntimeException ignored) {
+                        try {
+                                return userService.getUserByEmail(value);
+                        } catch (RuntimeException ignoredAgain) {
+                                return null;
+                        }
+                }
+        }
 
-        ByteArrayInputStream stream =
-                excelService.exportUsersToExcel();
+        @GetMapping("/export/all")
+        public ResponseEntity<InputStreamResource> exportAll(
+                        @RequestParam(required = false) String username,
+                        @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition",
-                "attachment; filename=all_users.xlsx");
-        // ✅ Allow browser to read Content-Disposition header
-        headers.add("Access-Control-Expose-Headers",
-                "Content-Disposition");
+                validateAdmin(username, authorizationHeader);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .headers(headers)
-                .contentType(MediaType.parseMediaType(
-                        "application/vnd.openxmlformats-" +
-                        "officedocument.spreadsheetml.sheet"))
-                .body(new InputStreamResource(stream));
-    }
+                InputStream stream = excelService.exportUsersToExcel();
+                InputStreamResource resource = new InputStreamResource(
+                                stream != null ? stream : new java.io.ByteArrayInputStream(new byte[0]));
 
-    // ── EXPORT STUDENTS ONLY ──────────────────────────────
-    // GET /api/admin/excel/export/students?username=teacherUsername
-    @GetMapping("/export/students")
-    public ResponseEntity<InputStreamResource> exportStudents(
-            @RequestParam String username) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Disposition", "attachment; filename=all_users.xlsx");
+                headers.add("Access-Control-Expose-Headers", "Content-Disposition");
 
-        validateTeacher(username);
+                return ResponseEntity
+                                .status(HttpStatus.OK)
+                                .headers(headers)
+                                .contentType(MediaType.parseMediaType(
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                                .body(resource);
+        }
 
-        ByteArrayInputStream stream =
-                excelService.exportUsersByRole("student");
+        @GetMapping("/export/normals")
+        public ResponseEntity<InputStreamResource> exportNormals(
+                        @RequestParam(required = false) String username,
+                        @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition",
-                "attachment; filename=students.xlsx");
-        headers.add("Access-Control-Expose-Headers",
-                "Content-Disposition");
+                validateAdmin(username, authorizationHeader);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .headers(headers)
-                .contentType(MediaType.parseMediaType(
-                        "application/vnd.openxmlformats-" +
-                        "officedocument.spreadsheetml.sheet"))
-                .body(new InputStreamResource(stream));
-    }
+                InputStream stream = excelService.exportUsersByRole("normal");
+                InputStreamResource resource = new InputStreamResource(
+                                stream != null ? stream : new java.io.ByteArrayInputStream(new byte[0]));
 
-    // ── EXPORT TEACHERS ONLY ──────────────────────────────
-    // GET /api/admin/excel/export/teachers?username=teacherUsername
-    @GetMapping("/export/teachers")
-    public ResponseEntity<InputStreamResource> exportTeachers(
-            @RequestParam String username) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Disposition", "attachment; filename=normal_users.xlsx");
+                headers.add("Access-Control-Expose-Headers", "Content-Disposition");
 
-        validateTeacher(username);
+                return ResponseEntity
+                                .status(HttpStatus.OK)
+                                .headers(headers)
+                                .contentType(MediaType.parseMediaType(
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                                .body(resource);
+        }
 
-        ByteArrayInputStream stream =
-                excelService.exportUsersByRole("teacher");
+        @GetMapping("/export/admins")
+        public ResponseEntity<InputStreamResource> exportAdmins(
+                        @RequestParam(required = false) String username,
+                        @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition",
-                "attachment; filename=teachers.xlsx");
-        headers.add("Access-Control-Expose-Headers",
-                "Content-Disposition");
+                validateAdmin(username, authorizationHeader);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .headers(headers)
-                .contentType(MediaType.parseMediaType(
-                        "application/vnd.openxmlformats-" +
-                        "officedocument.spreadsheetml.sheet"))
-                .body(new InputStreamResource(stream));
-    }
+                InputStream stream = excelService.exportUsersByRole("admin");
+                InputStreamResource resource = new InputStreamResource(
+                                stream != null ? stream : new java.io.ByteArrayInputStream(new byte[0]));
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Disposition", "attachment; filename=admin_users.xlsx");
+                headers.add("Access-Control-Expose-Headers", "Content-Disposition");
+
+                return ResponseEntity
+                                .status(HttpStatus.OK)
+                                .headers(headers)
+                                .contentType(MediaType.parseMediaType(
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                                .body(resource);
+        }
 }

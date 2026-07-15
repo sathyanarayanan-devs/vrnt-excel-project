@@ -14,11 +14,9 @@ public class JwtUtil {
 
     // ✅ Minimum 32 characters required for HMAC-SHA256
     // ✅ Using StandardCharsets.UTF_8 fixes Windows issue
-    private static final String SECRET =
-            "vrnt_secret_key_2025_abcdefghijklmnopqrstuvwxyz";
+    private static final String SECRET = "vrnt_secret_key_2025_abcdefghijklmnopqrstuvwxyz";
 
-    private static final long EXPIRY_MS =
-            24L * 60 * 60 * 1000;
+    private static final long EXPIRY_MS = 24L * 60 * 60 * 1000;
 
     // ── SIGNING KEY ───────────────────────────────────────
     private SecretKey getSigningKey() {
@@ -58,8 +56,21 @@ public class JwtUtil {
         }
     }
 
+    // ── NORMALIZE BEARER TOKEN HEADER ──────────────────────
+    private String normalizeToken(String token) {
+        if (token == null) {
+            return null;
+        }
+        token = token.trim();
+        if (token.startsWith("Bearer ")) {
+            return token.substring(7).trim();
+        }
+        return token;
+    }
+
     // ── HELPER ────────────────────────────────────────────
     private Claims extractClaims(String token) {
+        token = normalizeToken(token);
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()

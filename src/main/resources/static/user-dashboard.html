@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+
+<body class="page-user-dashboard">
+
+    <!-- Logout Modal -->
+    <div class="modal fade logout-modal" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span data-i18n="dashboard.logout.title">Confirm Log Out</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="bi bi-question-circle" style="font-size: 48px; color: var(--primary-color);"></i>
+                        </div>
+                        <h5 data-i18n="dashboard.logout.confirm">Are you sure you want to log out?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>
+                        <span data-i18n="common.cancel">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        <span data-i18n="dashboard.logout.confirm">Yes, Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar-dashboard">
+        <div class="navbar-brand">
+            <i class="bi bi-speedometer2"></i>
+            <span data-i18n="dashboard.title">Dashboard</span>
+        </div>
+        <div class="navbar-actions">
+            <div class="lang-selector">
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="en">EN</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="ta">TA</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="te">TE</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="hi">HI</button>
+            </div>
+            <button class="btn-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span data-i18n="common.logout">Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-main">
+        <div class="container-dashboard">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1 data-i18n="dashboard.user.welcome">My Dashboard</h1>
+                <p data-i18n="dashboard.user.subtitle">View and manage your profile information</p>
+                <div class="header-meta" data-i18n="dashboard.user.meta">Last updated: Just now</div>
+            </div>
+
+            <!-- User Details Section -->
+            <div class="details-section">
+                <div class="section-title">
+                    <i class="bi bi-person-lines-fill"></i>
+                    <span data-i18n="dashboard.user.details">My Profile Information</span>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.firstName">First Name</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.lastName">Last Name</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.email">Email</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.mobile">Mobile</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.aadhaar">Aadhaar</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.dob">Date of Birth</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.city">City</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.state">State</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.vedham">Vedham</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.gothram">Gothram</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.certified">Certified In</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label" data-i18n="form.yearCert">Year of Certification</div>
+                        <div class="detail-value">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="dashboard-actions-panel">
+                <a href="index.html" class="btn"
+                    style="display: inline-flex; align-items: center; gap: 6px; background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                    <i class="bi bi-house"></i>
+                    <span data-i18n="common.home">Go to Home</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Translator JS -->
+    <script src="scripts/translator.js"></script>
+    <!-- Dashboard JS -->
+    <script src="scripts/dashboard.js"></script>
+
+</body>
+
+</html>

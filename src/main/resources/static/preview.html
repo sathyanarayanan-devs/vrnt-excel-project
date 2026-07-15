@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preview Application - Veda Rakshana Nidhi Trust</title>
+    <link rel="stylesheet" href="styles/register.css" />
+</head>
+
+<body class="page-register">
+    <header class="hero-header" role="banner">
+        <div class="header-content" style="padding: 0; max-width: 100%;">
+            <img src="images/header_new.svg" alt="Veda Rakshana Nidhi Trust"
+                style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
+        </div>
+        <div class="ms-auto d-flex gap-1 lang-switcher">
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="ta">தமிழ்</button>
+            <button class="lang-btn" data-lang="te">తెలుగు</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+        </div>
+        <h2 class="header-main-title">Veda Rakshana Nidhi Trust</h2>
+    </header>
+
+    <main class="page-wrapper" role="main">
+        <div class="form-card" id="previewCard">
+            <div class="step-progress" aria-label="Form Progress">
+                <div class="step-item">
+                    <div class="step-circle completed">1</div>
+                    <span class="step-label completed">Personal Details</span>
+                </div>
+                <div class="step-line active"></div>
+                <div class="step-item">
+                    <div class="step-circle active">2</div>
+                    <span class="step-label active">Preview</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <span class="step-label">Submit</span>
+                </div>
+            </div>
+
+            <h2 class="form-card-title">Review Your Application</h2>
+            <p class="text-muted mb-4">Please verify the details below before submitting your application.</p>
+
+            <div id="previewContent" class="preview-summary"></div>
+
+            <div class="btn-group full">
+                <button type="button" class="btn btn-secondary" id="backBtn">Edit Application</button>
+                <button type="button" class="btn btn-success" id="submitBtn">Submit Application</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Veda Rakshana Nidhi Trust. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/translator.js"></script>
+    <script src="scripts/validation.js"></script>
+    <script src="scripts/form.js"></script>
+    <script>
+        function getPreviewData() {
+            try {
+                if (window.getPersistedPreviewData) {
+                    const data = window.getPersistedPreviewData();
+                    if (data && Object.keys(data).length) {
+                        return data;
+                    }
+                }
+
+                const storedValue = sessionStorage.getItem('previewData') || localStorage.getItem('registrationPreviewData');
+                if (storedValue) {
+                    return JSON.parse(storedValue);
+                }
+
+                const draftData = localStorage.getItem('registrationFormData');
+                if (draftData) {
+                    return JSON.parse(draftData);
+                }
+
+                return {};
+            } catch (error) {
+                console.error('Unable to read preview data:', error);
+                return {};
+            }
+        }
+
+        function formatPreviewValue(fieldName, value) {
+            if (!value) return '—';
+            if (fieldName === 'mobile') return `+91 ${value}`;
+            if (fieldName === 'dateOfBirth') {
+                const date = new Date(value);
+                return date.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            }
+            if (fieldName === 'password') return '••••••';
+            return value;
+        }
+
+        function getFieldLabel(fieldName) {
+            const labels = {
+                first_name: 'First Name',
+                last_name: 'Last Name',
+                mobile: 'Mobile Number',
+                email: 'Email ID',
+                password: 'Password',
+                street1: 'Street Address Line 1',
+                street2: 'Street Address Line 2',
+                city: 'City',
+                state: 'State',
+                postalCode: 'PIN Code',
+                aadhaar: 'Aadhaar Number',
+                dateOfBirth: 'Date of Birth',
+                vedham: 'Vedham',
+                shaka: 'Shaka',
+                gothram: 'Gothram',
+                soothram: 'Soothram',
+                patasalai: 'Patasalai',
+                adhyapakarName: 'Veda Adhyapakar Name',
+                certifiedIn: 'Certified In',
+                yearOfCertification: 'Year of Certification'
+            };
+            return labels[fieldName] || fieldName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function renderPreview() {
+            const data = getPreviewData();
+            const container = document.getElementById('previewContent');
+
+            if (!container) return;
+
+            if (!Object.keys(data).length) {
+                container.innerHTML = '<div class="alert alert-danger show">No application data was found. Please go back and complete the form.</div>';
+                return;
+            }
+
+            const sections = [
+                {
+                    title: 'Personal Details',
+                    fields: ['first_name', 'last_name', 'mobile', 'email', 'password', 'street1', 'street2', 'city', 'state', 'postalCode', 'aadhaar', 'dateOfBirth']
+                },
+                {
+                    title: 'Vedic Details',
+                    fields: ['vedham', 'shaka', 'gothram', 'soothram', 'patasalai', 'adhyapakarName', 'certifiedIn', 'yearOfCertification']
+                }
+            ];
+
+            const html = sections.map(section => {
+                const rows = section.fields
+                    .filter(field => Object.prototype.hasOwnProperty.call(data, field) && data[field] !== '')
+                    .map(field => `
+                        <div class="form-group preview-field">
+                            <label>${getFieldLabel(field)}</label>
+                            <div class="preview-value">${formatPreviewValue(field, data[field])}</div>
+                        </div>
+                    `)
+                    .join('');
+
+                return `
+                    <section class="preview-section">
+                        <div class="section-title">${section.title}</div>
+                        <div class="preview-grid">${rows || '<p class="text-muted">No details provided.</p>'}</div>
+                    </section>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
+        }
+
+        window.renderPreview = renderPreview;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            renderPreview();
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+                window.location.href = 'register.html';
+            });
+
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                const data = getPreviewData();
+                if (!Object.keys(data).length) {
+                    showAlert('No application data found to submit.', 'danger');
+                    return;
+                }
+                submitRegistration(null, null, data);
+            });
+        });
+    </script>
+</body>
+
+</html>

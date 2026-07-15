@@ -1,15 +1,13 @@
 package com.example.Vrnt.Controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomepageControler
-{
-@RequestMapping("/")
-    public String homepage()
-{
-    return "index.html";
-}
+public class HomepageControler {
 
+    @GetMapping({ "/", "/index" })
+    public String homepage() {
+        return "redirect:/index.html";
+    }
 }

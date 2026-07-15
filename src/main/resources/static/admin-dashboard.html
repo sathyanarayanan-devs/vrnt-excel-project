@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+
+<body class="page-admin-dashboard">
+
+    <!-- Logout Modal -->
+    <div class="modal fade logout-modal" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span data-i18n="dashboard.logout.title">Confirm Log Out</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="bi bi-question-circle" style="font-size: 48px; color: var(--primary-color);"></i>
+                        </div>
+                        <h5 data-i18n="dashboard.logout.confirm">Are you sure you want to log out?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>
+                        <span data-i18n="common.cancel">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        <span data-i18n="dashboard.logout.confirm">Yes, Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar-dashboard">
+        <div class="navbar-brand">
+            <i class="bi bi-shield-lock"></i>
+            <span data-i18n="dashboard.admin.title">Admin Dashboard</span>
+        </div>
+        <div class="navbar-actions">
+            <div class="lang-selector">
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="en">EN</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="ta">TA</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="te">TE</button>
+                <button class="btn btn-sm btn-outline-light lang-btn" data-lang="hi">HI</button>
+            </div>
+            <button class="btn-logout">
+                <i class="bi bi-box-arrow-right"></i>
+                <span data-i18n="common.logout">Logout</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-main">
+        <div class="container-dashboard">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1 data-i18n="dashboard.admin.welcome">Admin Dashboard</h1>
+                <p data-i18n="dashboard.admin.subtitle">Manage and view all registered users</p>
+                <div class="header-meta" data-i18n="dashboard.admin.meta">You have full administrative access</div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="cards-grid">
+                <div class="card">
+                    <i class="bi bi-people-fill card-icon"></i>
+                    <div class="card-title" data-i18n="dashboard.admin.totalUsers">Total Users</div>
+                    <div class="card-value">-</div>
+                    <div class="card-subtitle" data-i18n="dashboard.admin.registeredUsers">Registered users in system
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="bi bi-search card-icon"></i>
+                    <div class="card-title" data-i18n="dashboard.admin.search">Search & Manage</div>
+                    <div class="card-value">Ready</div>
+                    <div class="card-subtitle" data-i18n="dashboard.admin.searchAccess">Access user search and
+                        management</div>
+                </div>
+                <div class="card">
+                    <i class="bi bi-file-earmark-text card-icon"></i>
+                    <div class="card-title" data-i18n="dashboard.admin.export">Export Data</div>
+                    <div class="card-value">Available</div>
+                    <div class="card-subtitle" data-i18n="dashboard.admin.exportAccess">Export user data to Excel/CSV
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Info Section -->
+            <div class="details-section">
+                <div class="section-title">
+                    <i class="bi bi-shield-check"></i>
+                    <span data-i18n="dashboard.admin.adminInfo">Administrator Information</span>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="bi bi-person-shield"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 data-i18n="dashboard.admin.adminRole">Administrator</h3>
+                            <p id="adminEmail">admin@vrnt.org</p>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-action btn-primary-action" onclick="navigateToSearch()">
+                            <i class="bi bi-search"></i>
+                            <span data-i18n="dashboard.admin.goToSearch">Go to Search Page</span>
+                        </button>
+                        <button class="btn-action btn-secondary-action" onclick="window.location.href='index.html'">
+                            <i class="bi bi-house"></i>
+                            <span data-i18n="common.home">Go to Home</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Capabilities -->
+                <div class="capabilities-panel">
+                    <h4 class="capabilities-title" data-i18n="dashboard.admin.capabilities">Your Capabilities</h4>
+                    <ul class="capabilities-list">
+                        <li class="capability-item">
+                            <i class="bi bi-check-circle capability-icon"></i>
+                            <span data-i18n="dashboard.admin.cap1">Search and filter all registered users</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="bi bi-check-circle capability-icon"></i>
+                            <span data-i18n="dashboard.admin.cap2">View detailed user information and profiles</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="bi bi-check-circle capability-icon"></i>
+                            <span data-i18n="dashboard.admin.cap3">Export user data to Excel and CSV formats</span>
+                        </li>
+                        <li class="capability-item">
+                            <i class="bi bi-check-circle capability-icon"></i>
+                            <span data-i18n="dashboard.admin.cap4">Select and download specific user records</span>
+                        </li>
+                        <li class="capability-item last-item">
+                            <i class="bi bi-check-circle capability-icon"></i>
+                            <span data-i18n="dashboard.admin.cap5">Full access to system administration features</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Action Buttons Section -->
+            <div class="dashboard-actions-panel">
+                <button class="btn"
+                    style="display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, var(--primary-color) 0%, #d97a2d 100%); color: white; border: none; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; cursor: pointer; margin-right: 10px;"
+                    onclick="navigateToSearch()">
+                    <i class="bi bi-search"></i>
+                    <span data-i18n="dashboard.admin.goToSearch">Go to Search Page</span>
+                </button>
+                <a href="index.html" class="btn"
+                    style="display: inline-flex; align-items: center; gap: 6px; background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                    <i class="bi bi-house"></i>
+                    <span data-i18n="common.home">Go to Home</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Translator JS -->
+    <script src="scripts/translator.js"></script>
+    <!-- Dashboard JS -->
+    <script src="scripts/dashboard.js"></script>
+
+    <script>
+        /**
+         * Navigate to search page
+         */
+        function navigateToSearch() {
+            window.location.href = 'search.html';
+        }
+
+        /**
+         * Display admin email on page load
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminEmail = localStorage.getItem('userEmail');
+            if (adminEmail) {
+                const adminEmailElement = document.getElementById('adminEmail');
+                if (adminEmailElement) {
+                    adminEmailElement.textContent = adminEmail;
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

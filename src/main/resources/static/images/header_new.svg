@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-label="Veda Rakshana Nidhi Trust header">
+  <rect width="1200" height="260" fill="#f8efe3"/>
+  <rect x="40" y="40" width="1120" height="180" rx="24" fill="#fffaf2" stroke="#c59b4c" stroke-width="3"/>
+  <circle cx="190" cy="130" r="56" fill="#8b5e3c"/>
+  <circle cx="190" cy="130" r="32" fill="#f4d06f"/>
+  <text x="310" y="115" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#5d3b1a">Veda Rakshana Nidhi Trust</text>
+  <text x="310" y="157" font-family="Arial, sans-serif" font-size="24" fill="#8a6a35">Preserving the Vedas for Future Generations</text>
+</svg>

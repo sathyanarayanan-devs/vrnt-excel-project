@@ -60,6 +60,10 @@ public class RegisterRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, max = 64, message = "Password must be between 6 and 64 characters")
+    private String password;
+
     // Vedic Details
     @NotBlank(message = "Vedham is required")
     @Size(max = 50, message = "Vedham must not exceed 50 characters")

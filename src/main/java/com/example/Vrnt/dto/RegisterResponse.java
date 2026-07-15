@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +19,12 @@ public class RegisterResponse {
     private String lastName;
     private String fullName; // Computed field
     private String mobile;
+    private String username;
     private String email;
+    private String role;
+    private String aadhaar;
+    private LocalDate dateOfBirth;
+    private String department;
     private String city;
     private String state;
     private String postalCode;

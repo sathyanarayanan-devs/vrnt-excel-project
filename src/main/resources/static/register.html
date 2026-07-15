@@ -10,12 +10,12 @@
   <link rel="stylesheet" href="styles/register.css" />
 </head>
 
-<body>
+<body class="page-register">
 
   <header class="hero-header" role="banner">
     <div class="header-content" style="padding: 0; max-width: 100%;">
-      <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust"
-style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
+      <img src="images/header_new.svg" alt="Veda Rakshana Nidhi Trust"
+        style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
     </div>
     <!-- LANGUAGE SELECTOR BUTTONS (right side) -->
     <div class="ms-auto d-flex gap-1 lang-switcher">
@@ -26,7 +26,7 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
     </div>
     <h2 class="header-main-title">Veda Rakshana Nidhi Trust</h2>
   </header>
-    
+
   <!-- ══════════════════════════════════════════════════════
      PAGE WRAPPER
 ════════════════════════════════════════════════════════ -->
@@ -84,9 +84,11 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
                 class="required-star">*</span></label>
             <div style="display:flex;align-items:center;gap:8px;">
               <span
-                style="background:#FCF4E8;border:1px solid #ccc;padding:8px 10px;border-radius:4px;font-size:14px;font-weight:600;color:#8F5307;white-space:nowrap;">🇮🇳 +91</span>
-              <input type="tel" id="mobile" name="mobile" class="form-control" placeholder="98765 43210" maxlength="10"
-                data-i18n="hint_mobile" inputmode="numeric" aria-required="true" autocomplete="tel" style="flex:1;" />
+                style="background:#FCF4E8;border:1px solid #ccc;padding:8px 10px;border-radius:4px;font-size:14px;font-weight:600;color:#8F5307;white-space:nowrap;">🇮🇳
+                +91</span>
+              <input type="text" id="mobile" name="mobile" class="form-control" placeholder="98765 43210" maxlength="10"
+                data-i18n="hint_mobile" inputmode="numeric" pattern="[0-9]*" aria-required="true" autocomplete="tel"
+                style="flex:1;" />
             </div>
             <span class="field-hint">10-digit Indian mobile (starts with 6, 7, 8 or 9)</span>
             <span class="error-msg" id="mobile_err"></span>
@@ -96,6 +98,14 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
             <input type="email" id="email" name="email" class="form-control" placeholder="example@example.com"
               data-i18n="hint_email" aria-required="true" autocomplete="email" />
             <span class="error-msg" id="email_err"></span>
+          </div>
+          <div class="form-group">
+            <label for="password"><span data-i18n="lbl_password">Password</span> <span
+                class="required-star">*</span></label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password"
+              aria-required="true" autocomplete="new-password" minlength="6" />
+            <span class="field-hint" data-i18n="hint_password">Minimum 6 characters</span>
+            <span class="error-msg" id="password_err"></span>
           </div>
         </div>
 
@@ -130,11 +140,11 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
             <span class="error-msg" id="state_err"></span>
           </div>
           <div class="form-group">
-            <input type="text" id="postal" name="postal" class="form-control" placeholder="PIN Code (6 digits)"
+            <input type="text" id="postalCode" name="postalCode" class="form-control" placeholder="PIN Code (6 digits)"
               data-i18n="hint_postal" aria-label="PIN Code" aria-required="true" autocomplete="postal-code"
-              maxlength="6" inputmode="numeric" />
+              maxlength="6" inputmode="numeric" pattern="[0-9]*" />
             <span class="field-hint">PIN Code (6 digits)</span>
-            <span class="error-msg" id="postal_err"></span>
+            <span class="error-msg" id="postalCode_err"></span>
           </div>
         </div>
 
@@ -144,13 +154,15 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
             <label for="aadhaar"><span data-i18n="lbl_aadhaar">Aadhaar Number</span> <span
                 class="required-star">*</span></label>
             <input type="text" id="aadhaar" name="aadhaar" class="form-control" placeholder="12-digit Aadhaar number"
-              maxlength="12" inputmode="numeric" aria-required="true" />
+              maxlength="12" inputmode="numeric" pattern="[0-9]*" aria-required="true" />
             <span class="error-msg" id="aadhaar_err"></span>
           </div>
           <div class="form-group">
-            <label for="dob"><span data-i18n="lbl_dob">Date of Birth</span> <span class="required-star">*</span></label>
-            <input type="date" id="dob" name="dob" class="form-control" aria-required="true" autocomplete="bday" max="9999-12-31" />
-            <span class="error-msg" id="dob_err"></span>
+            <label for="dateOfBirth"><span data-i18n="lbl_dob">Date of Birth</span> <span
+                class="required-star">*</span></label>
+            <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" aria-required="true"
+              autocomplete="bday" min="1900-01-01" />
+            <span class="error-msg" id="dateOfBirth_err"></span>
           </div>
         </div>
 
@@ -191,21 +203,21 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
 
         <div class="form-row single">
           <div class="form-group">
-            <label for="adhyapakar" data-i18n="lbl_adhyapakar">Veda Adhyapakar's Name</label>
-            <input type="text" id="adhyapakar" name="adhyapakar" class="form-control" />
+            <label for="adhyapakarName" data-i18n="lbl_adhyapakar">Veda Adhyapakar's Name</label>
+            <input type="text" id="adhyapakarName" name="adhyapakarName" class="form-control" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="certified_in" data-i18n="lbl_certified_in">Certified In</label>
-            <input type="text" id="certified_in" name="certified_in" class="form-control" />
+            <label for="certifiedIn" data-i18n="lbl_certified_in">Certified In</label>
+            <input type="text" id="certifiedIn" name="certifiedIn" class="form-control" />
           </div>
           <div class="form-group">
-            <label for="year_cert" data-i18n="lbl_year_cert">Year of Certification</label>
-            <input type="text" id="year_cert" name="year_cert" class="form-control" placeholder="e.g., 2020"
-              data-i18n="hint_year" inputmode="numeric" maxlength="4" />
-            <span class="error-msg" id="year_cert_err"></span>
+            <label for="yearOfCertification" data-i18n="lbl_year_cert">Year of Certification</label>
+            <input type="text" id="yearOfCertification" name="yearOfCertification" class="form-control"
+              placeholder="e.g., 2020" data-i18n="hint_year" inputmode="numeric" maxlength="4" pattern="[0-9]*" />
+            <span class="error-msg" id="yearOfCertification_err"></span>
           </div>
         </div>
 
@@ -216,26 +228,26 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
         <div class="form-group" style="margin-bottom:16px;">
           <label data-i18n="lbl_cert_upload">Certificate Upload</label>
           <div class="upload-zone" id="cert_zone" role="button" aria-label="Certificate Upload">
-            <input type="file" id="cert_file" name="cert_file" accept=".pdf,.jpg,.jpeg,.png"
+            <input type="file" id="certFile" name="certFile" accept=".pdf,.jpg,.jpeg,.png"
               aria-label="Certificate File" />
             <span class="upload-icon">&#8683;</span>
             <p class="upload-title" data-i18n="upload_title">Upload a File</p>
             <p class="upload-hint">Drag and drop or click to choose (PDF, JPG, PNG)</p>
           </div>
-          <span class="error-msg" id="cert_file_err"></span>
+          <span class="error-msg" id="certFile_err"></span>
         </div>
 
         <!-- Passport Photo Upload -->
         <div class="form-group" style="margin-bottom:24px;">
           <label data-i18n="lbl_photo_upload">Passport Size Photo Upload</label>
           <div class="upload-zone" id="photo_zone" role="button" aria-label="Passport Photo Upload">
-            <input type="file" id="photo_file" name="photo_file" accept=".jpg,.jpeg,.png"
+            <input type="file" id="photoFile" name="photoFile" accept=".jpg,.jpeg,.png"
               aria-label="Passport Photo File" />
             <span class="upload-icon">&#8683;</span>
             <p class="upload-title" data-i18n="upload_title">Upload a File</p>
             <p class="upload-hint">Drag and drop or click to choose (JPG, PNG)</p>
           </div>
-          <span class="error-msg" id="photo_file_err"></span>
+          <span class="error-msg" id="photoFile_err"></span>
         </div>
 
         <!-- Preview Button -->
@@ -266,8 +278,10 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
       initLanguage();
       loadFormData(); // no-op: form always starts blank
       attachRealtimeValidation();
-      initUploadZone('cert_zone', 'cert_file', 'cert');
-      initUploadZone('photo_zone', 'photo_file', 'photo');
+      attachNumericInputRestrictions();
+      setDateOfBirthRange();
+      initUploadZone('cert_zone', 'certFile', 'cert');
+      initUploadZone('photo_zone', 'photoFile', 'photo');
 
       // ── Enter key → move to next field ────────────────
       attachEnterNavigation();
@@ -295,11 +309,63 @@ style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 au
       });
     }
 
+    function initUploadZone(zoneId, fileInputId, fileType) {
+      const zone = document.getElementById(zoneId);
+      const fileInput = document.getElementById(fileInputId);
+
+      if (!zone || !fileInput) return;
+
+      zone.addEventListener('click', () => fileInput.click());
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.classList.add('dragover');
+      });
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('dragover');
+      });
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          fileInput.files = files;
+          fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const fileName = file.name;
+          const fileSize = (file.size / 1024).toFixed(2);
+          zone.querySelector('.upload-title').textContent = fileName;
+          zone.querySelector('.upload-hint').textContent = fileSize + ' KB';
+          zone.classList.add('file-selected');
+        }
+      });
+    }
+
     function handlePreview() {
       if (!validateForm()) {
         const firstErr = document.querySelector('.form-control.is-invalid');
         if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
+      }
+
+      const form = document.getElementById('applicationForm');
+      const formData = new FormData(form);
+      const previewData = {};
+
+      formData.forEach((value, key) => {
+        if (key !== 'certFile' && key !== 'photoFile') {
+          previewData[key] = value;
+        }
+      });
+
+      if (window.persistPreviewData) {
+        window.persistPreviewData(previewData);
+      } else {
+        sessionStorage.setItem('previewData', JSON.stringify(previewData));
       }
       saveFormData();
       window.location.href = 'preview.html';

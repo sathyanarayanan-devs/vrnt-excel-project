@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Submitted - Veda Rakshana Nidhi Trust</title>
+    <link rel="stylesheet" href="styles/register.css" />
+</head>
+
+<body class="page-register">
+    <header class="hero-header" role="banner">
+        <div class="header-content" style="padding: 0; max-width: 100%;">
+            <img src="images/header_new.svg" alt="Veda Rakshana Nidhi Trust"
+                style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
+        </div>
+        <div class="ms-auto d-flex gap-1 lang-switcher">
+            <button class="lang-btn" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="ta">தமிழ்</button>
+            <button class="lang-btn" data-lang="te">తెలుగు</button>
+            <button class="lang-btn" data-lang="hi">हिन्दी</button>
+        </div>
+        <h2 class="header-main-title" data-i18n="preview.trustTitle">Veda Rakshana Nidhi Trust</h2>
+    </header>
+
+    <main class="page-wrapper" role="main">
+        <div class="form-card" style="text-align: center; max-width: 680px; margin: 0 auto;">
+            <div style="font-size: 64px; margin-bottom: 16px;">✅</div>
+            <h2 class="form-card-title" data-i18n="success.title" style="margin-bottom: 12px;">Application Submitted
+                Successfully</h2>
+            <p data-i18n="success.description"
+                style="font-size: 1.05rem; color: var(--text-light); margin-bottom: 24px;">
+                Your application has been received successfully. You can now return to the home page and log in to
+                continue.
+            </p>
+            <a href="index.html" class="btn btn-primary" data-i18n="success.homeButton"
+                style="display: inline-block; text-decoration: none;">
+                Returns to home and Log In
+            </a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Veda Rakshana Nidhi Trust. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts/translator.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+        });
+    </script>
+</body>
+
+</html>

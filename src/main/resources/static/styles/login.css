@@ -1,0 +1,789 @@
+/* =========================================================
+   PROFESSIONAL LOGIN PAGE
+========================================================= */
+
+:root {
+    --primary: #8f5307;
+    --primary-dark: #693b03;
+    --primary-light: #b87320;
+    --accent: #d4a574;
+
+    --bg-page: #f5f1ea;
+    --bg-card: #ffffff;
+    --bg-input: #fafafa;
+
+    --text-primary: #292620;
+    --text-secondary: #6f6a62;
+    --border: #e3ddd4;
+
+    --danger: #dc3545;
+
+    --shadow-card:
+        0 20px 50px rgba(65, 42, 15, 0.12),
+        0 4px 12px rgba(65, 42, 15, 0.06);
+
+    --radius-lg: 18px;
+    --radius-md: 10px;
+    --transition: 0.25s ease;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body.page-login {
+    min-height: 100vh;
+    padding: 35px 20px;
+
+    font-family:
+        "Segoe UI",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    color: var(--text-primary);
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(212, 165, 116, 0.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(143, 83, 7, 0.12),
+            transparent 35%
+        ),
+        linear-gradient(135deg, #faf8f4, #eee5d8);
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.page-login > .container {
+    max-width: 1200px;
+}
+
+
+/* =========================================================
+   LANGUAGE BUTTONS
+========================================================= */
+
+.lang-btn {
+    min-width: 68px;
+    padding: 6px 12px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.8);
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    transition: var(--transition);
+}
+
+.lang-btn:hover {
+    color: var(--primary);
+    background: #fff;
+    border-color: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+.lang-btn.active {
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+
+    box-shadow: 0 4px 12px rgba(143, 83, 7, 0.25);
+}
+
+
+/* =========================================================
+   LOGIN CARD
+========================================================= */
+
+.login-container {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+
+    background: var(--bg-card);
+
+    border: 1px solid rgba(143, 83, 7, 0.08);
+    border-radius: var(--radius-lg);
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow-card);
+
+    animation: loginFadeUp 0.55s ease-out;
+}
+
+@keyframes loginFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   LOGIN HEADER
+========================================================= */
+
+.login-header {
+    position: relative;
+
+    padding: 35px 35px 30px;
+
+    text-align: center;
+    color: #fff;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--primary-dark),
+            var(--primary) 55%,
+            var(--primary-light)
+        );
+}
+
+.login-header::after {
+    content: "";
+
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+
+    width: 100%;
+    height: 18px;
+
+    background: var(--bg-card);
+
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.login-header img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    object-fit: contain;
+
+    transition: transform var(--transition);
+}
+
+.login-header img:hover {
+    transform: scale(1.02);
+}
+
+.login-header h2 {
+    margin-top: 5px;
+    margin-bottom: 8px;
+
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+
+.login-header p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, 0.82);
+}
+
+
+/* =========================================================
+   LOGIN BODY
+========================================================= */
+
+.login-body {
+    padding: 38px 38px 32px;
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.form-label {
+    margin-bottom: 8px;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    color: var(--text-primary);
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.input-group {
+    border-radius: var(--radius-md);
+
+    transition: var(--transition);
+}
+
+.input-group-text {
+    min-width: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--primary);
+
+    background: var(--bg-input);
+
+    border: 1px solid var(--border);
+    border-right: 0;
+
+    border-radius:
+        var(--radius-md)
+        0
+        0
+        var(--radius-md);
+}
+
+.input-group-text i {
+    font-size: 17px;
+}
+
+.form-control {
+    min-height: 48px;
+    padding: 11px 14px;
+
+    font-size: 14px;
+
+    color: var(--text-primary);
+    background: var(--bg-input);
+
+    border: 1px solid var(--border);
+
+    border-radius:
+        0
+        var(--radius-md)
+        var(--radius-md)
+        0;
+
+    box-shadow: none;
+
+    transition: var(--transition);
+}
+
+.form-control::placeholder {
+    color: #aaa49b;
+}
+
+.form-control:focus {
+    color: var(--text-primary);
+    background: #fff;
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(143, 83, 7, 0.1);
+}
+
+.input-group:focus-within .input-group-text {
+    color: #fff;
+    background: var(--primary);
+
+    border-color: var(--primary);
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .form-control {
+    padding-right: 48px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    z-index: 10;
+
+    transform: translateY(-50%);
+
+    padding: 4px;
+
+    color: var(--text-secondary);
+    background: transparent;
+
+    border: 0;
+
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+.password-toggle i {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   HELP TEXT
+========================================================= */
+
+.form-text {
+    margin-top: 7px;
+
+    font-size: 11.5px;
+    line-height: 1.5;
+
+    color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-check-input {
+    width: 17px;
+    height: 17px;
+    margin-top: 0;
+
+    cursor: pointer;
+
+    border-color: #c9c2b8;
+
+    box-shadow: none;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(143, 83, 7, 0.12);
+}
+
+.form-check-label {
+    font-size: 13px;
+
+    color: var(--text-secondary);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.btn-login {
+    width: 100%;
+    min-height: 49px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: 0.2px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-dark),
+            var(--primary),
+            var(--primary-light)
+        );
+
+    border: 0;
+    border-radius: var(--radius-md);
+
+    box-shadow:
+        0 8px 20px rgba(143, 83, 7, 0.24);
+
+    transition: var(--transition);
+}
+
+.btn-login:hover {
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(143, 83, 7, 0.3);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.btn-login:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+    display: flex;
+    align-items: center;
+
+    margin: 26px 0;
+
+    font-size: 12px;
+
+    color: #9a958d;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: var(--border);
+}
+
+.divider span {
+    padding: 0 14px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   GOOGLE BUTTON
+========================================================= */
+
+.btn-google {
+    min-height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--text-primary);
+    background: #fff;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    transition: var(--transition);
+}
+
+.btn-google i {
+    font-size: 18px;
+
+    color: #db4437;
+}
+
+.btn-google:hover {
+    color: var(--text-primary);
+    background: #faf9f7;
+
+    border-color: #c9c1b6;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(0, 0, 0, 0.07);
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-link {
+    margin-top: 4px;
+
+    text-align: center;
+}
+
+.forgot-link a {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--primary);
+
+    text-decoration: none;
+
+    transition: var(--transition);
+}
+
+.forgot-link a:hover {
+    color: var(--primary-dark);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   REGISTER LINK
+========================================================= */
+
+.register-link {
+    margin-top: 22px;
+    padding-top: 20px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--border);
+}
+
+.register-link p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: var(--text-secondary);
+}
+
+.register-link a {
+    margin-left: 4px;
+
+    font-weight: 700;
+
+    color: var(--primary);
+
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    color: var(--primary-dark);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   TERMS & PRIVACY
+========================================================= */
+
+.page-login .text-muted {
+    color: var(--text-secondary) !important;
+}
+
+.page-login .text-muted a {
+    color: var(--primary);
+
+    font-weight: 500;
+
+    transition: var(--transition);
+}
+
+.page-login .text-muted a:hover {
+    color: var(--primary-dark);
+}
+
+
+/* =========================================================
+   VALIDATION
+========================================================= */
+
+.form-control.is-invalid {
+    border-color: var(--danger);
+}
+
+.form-control.is-invalid:focus {
+    border-color: var(--danger);
+
+    box-shadow:
+        0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 13px;
+
+    border-radius: var(--radius-md);
+
+    animation: loginFadeUp 0.3s ease-out;
+}
+
+.alert-success {
+    color: #155724;
+    background: #e8f5ec;
+    border: 1px solid #b8dfc3;
+}
+
+.alert-danger {
+    color: #842029;
+    background: #fcebec;
+    border: 1px solid #f1b8bd;
+}
+
+.alert-warning {
+    color: #664d03;
+    background: #fff8df;
+    border: 1px solid #f5df9d;
+}
+
+.alert-info {
+    color: #055160;
+    background: #e5f6f9;
+    border: 1px solid #acdce5;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.btn-login .spinner-border {
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+
+    border-width: 2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    body.page-login {
+        padding: 20px 12px;
+    }
+
+    .lang-btn {
+        min-width: auto;
+        padding: 5px 9px;
+
+        font-size: 11px;
+    }
+
+    .login-container {
+        border-radius: 14px;
+    }
+
+    .login-header {
+        padding: 28px 20px 26px;
+    }
+
+    .login-header img:first-child {
+        max-width: 280px !important;
+    }
+
+    .login-header img:nth-child(2) {
+        max-width: 190px !important;
+    }
+
+    .login-header h2 {
+        font-size: 22px;
+    }
+
+    .login-header p {
+        font-size: 13px;
+    }
+
+    .login-body {
+        padding: 32px 22px 26px;
+    }
+
+    .form-control {
+        font-size: 16px;
+    }
+
+    .divider {
+        margin: 22px 0;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

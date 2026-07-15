@@ -15,14 +15,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_email", columnNames = "email"),
-                @UniqueConstraint(name = "uk_mobile", columnNames = "mobile"),
-                @UniqueConstraint(name = "uk_aadhaar", columnNames = "aadhaar")
-        }
-)
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_email", columnNames = "email"),
+        @UniqueConstraint(name = "uk_mobile", columnNames = "mobile"),
+        @UniqueConstraint(name = "uk_aadhaar", columnNames = "aadhaar")
+})
 public class User {
 
     @Id
@@ -41,6 +38,22 @@ public class User {
 
     @Column(nullable = false, unique = true, length = 150)
     private String email;
+
+    @Column(nullable = false, length = 20)
+    private String role;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String username;
+
+    @JsonIgnore
+    @Column(length = 255)
+    private String password;
+
+    @Column(length = 50)
+    private String gender;
+
+    @Column(length = 100)
+    private String department;
 
     // Address Details
     @Column(name = "street1", nullable = false, length = 255)
@@ -106,6 +119,12 @@ public class User {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public String getFullName() {
+        String first = firstName != null ? firstName : "";
+        String last = lastName != null ? lastName : "";
+        return (first + " " + last).trim();
+    }
 
     @PrePersist
     protected void onCreate() {
