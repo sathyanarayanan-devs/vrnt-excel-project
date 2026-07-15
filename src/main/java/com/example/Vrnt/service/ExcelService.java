@@ -74,9 +74,11 @@ public class ExcelService {
                                 // ── Headers ───────────────────────────────
                                 Row headerRow = sheet.createRow(0);
                                 String[] headers = {
-                                                "ID", "Role", "Username",
-                                                "Full Name", "Email",
-                                                "Gender", "Department", "Registered At"
+                                                "First Name", "Last Name", "Mobile", "Email", "Role",
+                                                "Username", "Street Address", "City", "State", "Postal Code",
+                                                "Aadhaar", "Date of Birth", "Vedham", "Shaka", "Gothram",
+                                                "Soothram", "Patasalai", "Veda Adhyapakar", "Certified In",
+                                                "Year of Certification", "Registered At"
                                 };
                                 for (int i = 0; i < headers.length; i++) {
                                         Cell cell = headerRow.createCell(i);
@@ -106,20 +108,49 @@ public class ExcelService {
                                         CellStyle style = (rowNum % 2 == 0) ? altStyle : dataStyle;
 
                                         createCell(row, 0,
-                                                        String.valueOf(user.getId()), style);
+                                                        user.getFirstName(), style);
                                         createCell(row, 1,
-                                                        user.getRole(), style);
+                                                        user.getLastName(), style);
                                         createCell(row, 2,
-                                                        user.getUsername(), style);
+                                                        user.getMobile(), style);
                                         createCell(row, 3,
-                                                        user.getFullName(), style);
-                                        createCell(row, 4,
                                                         user.getEmail(), style);
+                                        createCell(row, 4,
+                                                        user.getRole(), style);
                                         createCell(row, 5,
-                                                        user.getGender(), style);
+                                                        user.getUsername(), style);
                                         createCell(row, 6,
-                                                        user.getDepartment(), style);
+                                                        user.getStreet1(), style);
                                         createCell(row, 7,
+                                                        user.getCity(), style);
+                                        createCell(row, 8,
+                                                        user.getState(), style);
+                                        createCell(row, 9,
+                                                        user.getPostalCode(), style);
+                                        createCell(row, 10,
+                                                        user.getAadhaar(), style);
+                                        createCell(row, 11,
+                                                        user.getDateOfBirth() != null
+                                                                        ? user.getDateOfBirth().toString()
+                                                                        : "-",
+                                                        style);
+                                        createCell(row, 12,
+                                                        user.getVedham(), style);
+                                        createCell(row, 13,
+                                                        user.getShaka(), style);
+                                        createCell(row, 14,
+                                                        user.getGothram(), style);
+                                        createCell(row, 15,
+                                                        user.getSoothram(), style);
+                                        createCell(row, 16,
+                                                        user.getPatasalai(), style);
+                                        createCell(row, 17,
+                                                        user.getAdhyapakarName(), style);
+                                        createCell(row, 18,
+                                                        user.getCertifiedIn(), style);
+                                        createCell(row, 19,
+                                                        user.getYearOfCertification(), style);
+                                        createCell(row, 20,
                                                         user.getCreatedAt() != null
                                                                         ? user.getCreatedAt().toString()
                                                                         : "-",
@@ -165,9 +196,11 @@ public class ExcelService {
                         // Headers
                         Row headerRow = sheet.createRow(0);
                         String[] headers = {
-                                        "ID", "Role", "Username",
-                                        "Full Name", "Email",
-                                        "Gender", "Department", "Created At"
+                                        "First Name", "Last Name", "Mobile", "Email", "Role",
+                                        "Username", "Street Address", "City", "State", "Postal Code",
+                                        "Aadhaar", "Date of Birth", "Vedham", "Shaka", "Gothram",
+                                        "Soothram", "Patasalai", "Veda Adhyapakar", "Certified In",
+                                        "Year of Certification", "Registered At"
                         };
                         for (int i = 0; i < headers.length; i++) {
                                 Cell cell = headerRow.createCell(i);
@@ -188,20 +221,49 @@ public class ExcelService {
                         for (User user : users) {
                                 Row row = sheet.createRow(rowNum++);
                                 createCell(row, 0,
-                                                String.valueOf(user.getId()), dataStyle);
+                                                user.getFirstName(), dataStyle);
                                 createCell(row, 1,
-                                                user.getRole(), dataStyle);
+                                                user.getLastName(), dataStyle);
                                 createCell(row, 2,
-                                                user.getUsername(), dataStyle);
+                                                user.getMobile(), dataStyle);
                                 createCell(row, 3,
-                                                user.getFullName(), dataStyle);
-                                createCell(row, 4,
                                                 user.getEmail(), dataStyle);
+                                createCell(row, 4,
+                                                user.getRole(), dataStyle);
                                 createCell(row, 5,
-                                                user.getGender(), dataStyle);
+                                                user.getUsername(), dataStyle);
                                 createCell(row, 6,
-                                                user.getDepartment(), dataStyle);
+                                                user.getStreet1(), dataStyle);
                                 createCell(row, 7,
+                                                user.getCity(), dataStyle);
+                                createCell(row, 8,
+                                                user.getState(), dataStyle);
+                                createCell(row, 9,
+                                                user.getPostalCode(), dataStyle);
+                                createCell(row, 10,
+                                                user.getAadhaar(), dataStyle);
+                                createCell(row, 11,
+                                                user.getDateOfBirth() != null
+                                                                ? user.getDateOfBirth().toString()
+                                                                : "-",
+                                                dataStyle);
+                                createCell(row, 12,
+                                                user.getVedham(), dataStyle);
+                                createCell(row, 13,
+                                                user.getShaka(), dataStyle);
+                                createCell(row, 14,
+                                                user.getGothram(), dataStyle);
+                                createCell(row, 15,
+                                                user.getSoothram(), dataStyle);
+                                createCell(row, 16,
+                                                user.getPatasalai(), dataStyle);
+                                createCell(row, 17,
+                                                user.getAdhyapakarName(), dataStyle);
+                                createCell(row, 18,
+                                                user.getCertifiedIn(), dataStyle);
+                                createCell(row, 19,
+                                                user.getYearOfCertification(), dataStyle);
+                                createCell(row, 20,
                                                 user.getCreatedAt() != null
                                                                 ? user.getCreatedAt().toString()
                                                                 : "-",
@@ -244,8 +306,11 @@ public class ExcelService {
                         // Headers
                         Row headerRow = sheet.createRow(0);
                         String[] headers = {
-                                        "ID", "Username", "Full Name",
-                                        "Email", "Gender", "Department", "Created At"
+                                        "First Name", "Last Name", "Mobile", "Email", "Role",
+                                        "Username", "Street Address", "City", "State", "Postal Code",
+                                        "Aadhaar", "Date of Birth", "Vedham", "Shaka", "Gothram",
+                                        "Soothram", "Patasalai", "Veda Adhyapakar", "Certified In",
+                                        "Year of Certification", "Registered At"
                         };
                         for (int i = 0; i < headers.length; i++) {
                                 Cell cell = headerRow.createCell(i);
@@ -258,16 +323,36 @@ public class ExcelService {
                         int rowNum = 1;
                         for (User user : users) {
                                 Row row = sheet.createRow(rowNum++);
-                                row.createCell(0).setCellValue(user.getId());
-                                row.createCell(1).setCellValue(user.getUsername());
-                                row.createCell(2).setCellValue(user.getFullName());
-                                row.createCell(3).setCellValue(user.getEmail());
-                                row.createCell(4).setCellValue(user.getGender());
-                                row.createCell(5).setCellValue(user.getDepartment());
-                                row.createCell(6).setCellValue(
-                                                user.getCreatedAt() != null
-                                                                ? user.getCreatedAt().toString()
+                                row.createCell(0).setCellValue(user.getFirstName() != null ? user.getFirstName() : "-");
+                                row.createCell(1).setCellValue(user.getLastName() != null ? user.getLastName() : "-");
+                                row.createCell(2).setCellValue(user.getMobile() != null ? user.getMobile() : "-");
+                                row.createCell(3).setCellValue(user.getEmail() != null ? user.getEmail() : "-");
+                                row.createCell(4).setCellValue(user.getRole() != null ? user.getRole() : "-");
+                                row.createCell(5).setCellValue(user.getUsername() != null ? user.getUsername() : "-");
+                                row.createCell(6).setCellValue(user.getStreet1() != null ? user.getStreet1() : "-");
+                                row.createCell(7).setCellValue(user.getCity() != null ? user.getCity() : "-");
+                                row.createCell(8).setCellValue(user.getState() != null ? user.getState() : "-");
+                                row.createCell(9).setCellValue(
+                                                user.getPostalCode() != null ? user.getPostalCode() : "-");
+                                row.createCell(10).setCellValue(user.getAadhaar() != null ? user.getAadhaar() : "-");
+                                row.createCell(11).setCellValue(
+                                                user.getDateOfBirth() != null ? user.getDateOfBirth().toString() : "-");
+                                row.createCell(12).setCellValue(user.getVedham() != null ? user.getVedham() : "-");
+                                row.createCell(13).setCellValue(user.getShaka() != null ? user.getShaka() : "-");
+                                row.createCell(14).setCellValue(user.getGothram() != null ? user.getGothram() : "-");
+                                row.createCell(15).setCellValue(user.getSoothram() != null ? user.getSoothram() : "-");
+                                row.createCell(16)
+                                                .setCellValue(user.getPatasalai() != null ? user.getPatasalai() : "-");
+                                row.createCell(17).setCellValue(
+                                                user.getAdhyapakarName() != null ? user.getAdhyapakarName() : "-");
+                                row.createCell(18).setCellValue(
+                                                user.getCertifiedIn() != null ? user.getCertifiedIn() : "-");
+                                row.createCell(19)
+                                                .setCellValue(user.getYearOfCertification() != null
+                                                                ? user.getYearOfCertification()
                                                                 : "-");
+                                row.createCell(20).setCellValue(
+                                                user.getCreatedAt() != null ? user.getCreatedAt().toString() : "-");
                         }
 
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
