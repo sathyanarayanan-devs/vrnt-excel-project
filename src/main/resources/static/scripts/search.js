@@ -314,15 +314,52 @@ function exportAllUsers(format) {
     exportTo(format, allUsers, 'all_users');
 }
 
-function exportTo(format, data, filenamePrefix) {
-    const blob = new Blob([convertToCSV(data)], { type: format === 'excel' ? 'application/vnd.ms-excel;charset=utf-8;' : 'text/csv;charset=utf-8;' });
+async function exportTo(format, data, filenamePrefix) {
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+        showAlert('Authentication required to export data.', 'danger');
+        return;
+    }
+
+    if (format === 'excel') {
+        try {
+            const response = await fetch('/api/admin/excel/export/all?username=' + encodeURIComponent(localStorage.getItem('userEmail') || ''), {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Export request failed');
+            }
+
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = `${filenamePrefix}_${new Date().getTime()}.xlsx`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            showAlert('Excel export started successfully.', 'success');
+        } catch (error) {
+            console.error('Excel export failed:', error);
+            showAlert('Excel export failed. Please try again.', 'danger');
+        }
+        return;
+    }
+
+    const blob = new Blob([convertToCSV(data)], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.href = url;
-    link.download = `${filenamePrefix}_${new Date().getTime()}.${format === 'excel' ? 'xlsx' : 'csv'}`;
+    link.download = `${filenamePrefix}_${new Date().getTime()}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-    showAlert(`${format === 'excel' ? 'Excel' : 'CSV'} export started successfully.`, 'success');
+    showAlert('CSV export started successfully.', 'success');
 }
 
 function convertToCSV(data) {

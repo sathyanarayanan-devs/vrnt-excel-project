@@ -30,26 +30,31 @@ public class ExcelController {
                 String resolvedUsername = username;
 
                 if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                        if (!jwtUtil.validateToken(authorizationHeader)) {
+                        String token = authorizationHeader.trim();
+                        if (!jwtUtil.validateToken(token)) {
                                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
                         }
 
-                        if (!"admin".equalsIgnoreCase(jwtUtil.extractRole(authorizationHeader))) {
+                        String tokenRole = jwtUtil.extractRole(token);
+                        if (!"admin".equalsIgnoreCase(tokenRole)) {
                                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied — Admins only");
                         }
 
                         if (resolvedUsername == null || resolvedUsername.isBlank()) {
-                                resolvedUsername = jwtUtil.extractUsername(authorizationHeader);
+                                resolvedUsername = jwtUtil.extractUsername(token);
                         }
                 }
 
-                if (resolvedUsername == null || resolvedUsername.isBlank()) {
+                if ((resolvedUsername == null || resolvedUsername.isBlank())
+                                && (authorizationHeader == null || !authorizationHeader.startsWith("Bearer "))) {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing or invalid admin identity");
                 }
 
-                User user = resolveUser(resolvedUsername);
-                if (user == null || !"admin".equalsIgnoreCase(user.getRole())) {
-                        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied — Admins only");
+                if (resolvedUsername != null && !resolvedUsername.isBlank()) {
+                        User user = resolveUser(resolvedUsername);
+                        if (user != null && !"admin".equalsIgnoreCase(user.getRole())) {
+                                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied — Admins only");
+                        }
                 }
         }
 
