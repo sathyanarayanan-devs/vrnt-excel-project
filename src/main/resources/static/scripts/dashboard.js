@@ -12,6 +12,12 @@ function initializeTranslator() {
     }
 }
 
+function getText(key, fallback = '') {
+    return (typeof Translator !== 'undefined' && Translator.getTranslation)
+        ? Translator.getTranslation(key)
+        : fallback;
+}
+
 /**
  * Check authentication
  */
@@ -20,7 +26,7 @@ function checkAuthentication() {
     const userEmail = localStorage.getItem('userEmail');
 
     if (!authToken || !userEmail) {
-        showAlert('Session expired. Redirecting to login...', 'warning');
+        showAlert(getText('dashboard.sessionExpired', 'Session expired. Redirecting to login...'), 'warning');
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 2000);
@@ -121,18 +127,18 @@ function displayUserDetails(user) {
     updateUserDashboardHeader(user);
 
     const details = [
-        ['First Name', user.firstName],
-        ['Last Name', user.lastName],
-        ['Email', user.email],
-        ['Mobile', user.mobile],
-        ['Aadhaar', user.aadhaar],
-        ['Date of Birth', formatDate(user.dateOfBirth)],
-        ['City', user.city],
-        ['State', user.state],
-        ['Vedham', user.vedham],
-        ['Gothram', user.gothram],
-        ['Certified In', user.certifiedIn],
-        ['Year of Certification', user.yearOfCertification]
+        [getText('form.firstName', 'First Name'), user.firstName],
+        [getText('form.lastName', 'Last Name'), user.lastName],
+        [getText('form.email', 'Email'), user.email],
+        [getText('form.mobile', 'Mobile'), user.mobile],
+        [getText('form.aadhaar', 'Aadhaar'), user.aadhaar],
+        [getText('form.dob', 'Date of Birth'), formatDate(user.dateOfBirth)],
+        [getText('form.city', 'City'), user.city],
+        [getText('form.state', 'State'), user.state],
+        [getText('form.vedham', 'Vedham'), user.vedham],
+        [getText('form.gothram', 'Gothram'), user.gothram],
+        [getText('form.certified', 'Certified In'), user.certifiedIn],
+        [getText('form.yearCert', 'Year of Certification'), user.yearOfCertification]
     ];
 
     const detailsGrid = profileSection.querySelector('.details-grid');
@@ -143,9 +149,9 @@ function displayUserDetails(user) {
             <div class="profile-summary-header">
                 <div>
                     <h3>${escapeHtml(user.firstName || 'User')} ${escapeHtml(user.lastName || '')}</h3>
-                    <p>${escapeHtml(user.email || 'No email available')}</p>
+                    <p>${escapeHtml(user.email || getText('dashboard.user.noEmail', 'No email available'))}</p>
                 </div>
-                <span class="profile-badge">${escapeHtml(user.role || 'Member')}</span>
+                <span class="profile-badge">${escapeHtml(user.role || getText('dashboard.user.member', 'Member'))}</span>
             </div>
             ${details.map(([label, value]) => `
                 <div class="detail-item">
@@ -167,7 +173,7 @@ function updateUserDashboardHeader(user) {
     const displayName = [user?.firstName, user?.lastName]
         .filter(Boolean)
         .join(' ')
-        .trim() || user?.username || user?.email?.split('@')[0] || 'User';
+        .trim() || user?.username || user?.email?.split('@')[0] || getText('dashboard.user.defaultName', 'User');
 
     const welcomeTitle = typeof Translator !== 'undefined' && Translator.getTranslation
         ? Translator.getTranslation('dashboard.user.welcome')
@@ -245,21 +251,21 @@ function displayAdminCards(userCount) {
     const cardsHtml = `
         <div class="card">
             <i class="bi bi-people-fill card-icon"></i>
-            <div class="card-title">Total Users</div>
+            <div class="card-title">${getText('dashboard.admin.cardTotalUsers', 'Total Users')}</div>
             <div class="card-value">${userCount}</div>
-            <div class="card-subtitle">Registered users in system</div>
+            <div class="card-subtitle">${getText('dashboard.admin.registeredUsers', 'Registered users in system')}</div>
         </div>
         <div class="card">
             <i class="bi bi-search card-icon"></i>
-            <div class="card-title">Search & Manage</div>
-            <div class="card-value">Ready</div>
-            <div class="card-subtitle">Access user search and management</div>
+            <div class="card-title">${getText('dashboard.admin.cardSearch', 'Search & Manage')}</div>
+            <div class="card-value">${getText('dashboard.admin.cardReady', 'Ready')}</div>
+            <div class="card-subtitle">${getText('dashboard.admin.cardSearchSubtitle', 'Access user search and management')}</div>
         </div>
         <div class="card">
             <i class="bi bi-file-earmark-text card-icon"></i>
-            <div class="card-title">Export Data</div>
-            <div class="card-value">Available</div>
-            <div class="card-subtitle">Export user data to Excel/CSV</div>
+            <div class="card-title">${getText('dashboard.admin.cardExport', 'Export Data')}</div>
+            <div class="card-value">${getText('dashboard.admin.cardAvailable', 'Available')}</div>
+            <div class="card-subtitle">${getText('dashboard.admin.cardExportSubtitle', 'Export user data to Excel/CSV')}</div>
         </div>
     `;
 
@@ -298,7 +304,7 @@ function handleLogout() {
     localStorage.removeItem('isAdmin');
     localStorage.removeItem('userRole');
 
-    showAlert('Logged out successfully. Redirecting...', 'success');
+    showAlert(getText('dashboard.logoutSuccess', 'Logged out successfully. Redirecting...'), 'success');
     setTimeout(() => {
         window.location.href = 'index.html';
     }, 1500);

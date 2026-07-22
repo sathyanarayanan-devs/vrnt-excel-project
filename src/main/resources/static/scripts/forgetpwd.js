@@ -18,6 +18,12 @@ function initializeTranslator() {
     }
 }
 
+function getText(key, fallback = '') {
+    return (typeof Translator !== 'undefined' && Translator.getTranslation)
+        ? Translator.getTranslation(key)
+        : fallback;
+}
+
 /**
  * Initialize forgot password form on page load
  */
@@ -38,13 +44,13 @@ async function handleForgotSubmit(e) {
 
     // Validate field
     if (!email) {
-        showAlert('Please enter your email address', 'warning');
+        showAlert(getText('forgot.enterEmail', 'Please enter your email address'), 'warning');
         return;
     }
 
     // Email validation
     if (!isValidEmail(email)) {
-        showAlert('Please enter a valid email address', 'warning');
+        showAlert(getText('forgot.validEmail', 'Please enter a valid email address'), 'warning');
         return;
     }
 
@@ -52,7 +58,7 @@ async function handleForgotSubmit(e) {
     const submitBtn = document.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border"></span> Sending...';
+    submitBtn.innerHTML = `<span class="spinner-border"></span> ${getText('forgot.sending', 'Sending...')}`;
 
     try {
         const response = await fetch(`${ForgotConfig.apiBaseUrl}${ForgotConfig.resetEndpoint}`, {
@@ -72,11 +78,11 @@ async function handleForgotSubmit(e) {
                 window.location.href = 'login.html';
             }, ForgotConfig.redirectDelay);
         } else {
-            showAlert(data.message || 'Failed to process your request. Please try again.', 'danger');
+            showAlert(data.message || getText('forgot.failed', 'Failed to process your request. Please try again.'), 'danger');
         }
     } catch (error) {
         console.error('Forgot password error:', error);
-        showAlert('An error occurred. Please try again later.', 'danger');
+        showAlert(getText('forgot.errorLater', 'An error occurred. Please try again later.'), 'danger');
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
@@ -107,13 +113,12 @@ function showSuccessMessage(email) {
     successContainer.innerHTML = `
         <div style="text-align: center; padding: 30px;">
             <i class="bi bi-check-circle" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>
-            <h4 style="margin-bottom: 10px;">Email Sent Successfully!</h4>
+            <h4 style="margin-bottom: 10px;">${getText('forgot.successTitle', 'Email Sent Successfully!')}</h4>
             <p style="margin-bottom: 20px;">
-                We've sent a password reset link to <strong>${escapeHtml(email)}</strong>
+                ${getText('forgot.successMessage', "We've sent a password reset link to")} <strong>${escapeHtml(email)}</strong>
             </p>
             <p style="font-size: 13px; color: #6c757d; margin-bottom: 0;">
-                Please check your email and follow the link to reset your password.
-                If you don't see the email, please check your spam folder.
+                ${getText('forgot.successInstruction', 'Please check your email and follow the link to reset your password. If you do not see the email, please check your spam folder.')}
             </p>
         </div>
     `;
@@ -121,7 +126,7 @@ function showSuccessMessage(email) {
     const forgotBody = form.closest('.forgot-body') || form.parentElement;
     forgotBody.appendChild(successContainer);
 
-    showAlert('Password reset link sent! Redirecting to login...', 'success');
+    showAlert(getText('forgot.resetSentRedirect', 'Password reset link sent! Redirecting to login...'), 'success');
 }
 
 /**

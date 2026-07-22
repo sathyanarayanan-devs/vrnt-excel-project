@@ -11,7 +11,9 @@ import java.nio.file.Paths;
 public class AppProperties {
 
     private String uploadDir = "uploads/";
-    private String excelPath = "./VRNT_Data/vrnt_users.xlsx";
+    private String normalExcelPath = "./VRNT_Data/normal_users.xlsx";
+    private String adminExcelPath = "./VRNT_Data/admin_users.xlsx";
+    private String excelPath;
 
     public String getUploadDir() {
         return uploadDir;
@@ -19,6 +21,22 @@ public class AppProperties {
 
     public void setUploadDir(String uploadDir) {
         this.uploadDir = uploadDir;
+    }
+
+    public String getNormalExcelPath() {
+        return normalExcelPath;
+    }
+
+    public void setNormalExcelPath(String normalExcelPath) {
+        this.normalExcelPath = normalExcelPath;
+    }
+
+    public String getAdminExcelPath() {
+        return adminExcelPath;
+    }
+
+    public void setAdminExcelPath(String adminExcelPath) {
+        this.adminExcelPath = adminExcelPath;
     }
 
     public String getExcelPath() {
@@ -29,12 +47,24 @@ public class AppProperties {
         this.excelPath = excelPath;
     }
 
-    public Path resolveExcelPath() {
-        String configuredPath = (excelPath == null || excelPath.isBlank())
-                ? "./VRNT_Data/vrnt_users.xlsx"
-                : excelPath.trim();
+    public Path resolveNormalExcelPath() {
+        return resolveConfiguredPath(normalExcelPath, "./VRNT_Data/normal_users.xlsx");
+    }
 
-        Path path = Paths.get(configuredPath);
+    public Path resolveAdminExcelPath() {
+        return resolveConfiguredPath(adminExcelPath, "./VRNT_Data/admin_users.xlsx");
+    }
+
+    public Path resolveExcelPath() {
+        return resolveConfiguredPath(excelPath, "./VRNT_Data/normal_users.xlsx");
+    }
+
+    private Path resolveConfiguredPath(String configuredPath, String fallback) {
+        String effectivePath = (configuredPath == null || configuredPath.isBlank())
+                ? fallback
+                : configuredPath.trim();
+
+        Path path = Paths.get(effectivePath);
         if (path.isAbsolute()) {
             return path.normalize();
         }

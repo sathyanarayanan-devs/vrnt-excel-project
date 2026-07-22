@@ -11,6 +11,12 @@ const SearchConfig = {
 let allUsers = [];
 let filteredUsers = [];
 
+function getText(key, fallback = '') {
+    return (typeof Translator !== 'undefined' && Translator.getTranslation)
+        ? Translator.getTranslation(key)
+        : fallback;
+}
+
 function checkAuthentication() {
     const authToken = localStorage.getItem('authToken');
     const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -19,7 +25,7 @@ function checkAuthentication() {
     const adminDetected = isAdmin || userRole === 'admin' || (userEmail && userEmail.toLowerCase().endsWith('@vrnt.org'));
 
     if (!authToken || !adminDetected) {
-        showAlert('Access denied. Admin access required.', 'danger');
+        showAlert(getText('search.accessDenied', 'Access denied. Admin access required.'), 'danger');
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 2000);
@@ -173,7 +179,7 @@ async function loadUsers(filters = {}) {
         const usernameParam = localStorage.getItem('username') || localStorage.getItem('userEmail') || '';
 
         if (!usernameParam) {
-            showAlert('Unable to determine authenticated user. Please log in again.', 'danger');
+            showAlert(getText('search.unknownUser', 'Unable to determine authenticated user. Please log in again.'), 'danger');
             setTimeout(() => window.location.href = 'login.html', 1500);
             return;
         }
@@ -194,7 +200,7 @@ async function loadUsers(filters = {}) {
 
         if (!response.ok) {
             const body = await response.json().catch(() => null);
-            const errorMessage = body?.message || 'Failed to load users.';
+            const errorMessage = body?.message || getText('search.loadUsersFailed', 'Failed to load users.');
             throw new Error(errorMessage);
         }
 
@@ -203,7 +209,7 @@ async function loadUsers(filters = {}) {
         displayResults();
     } catch (error) {
         console.error(error);
-        showAlert(error.message || 'Unable to load users.', 'danger');
+        showAlert(error.message || getText('search.loadUsersFailed', 'Unable to load users.'), 'danger');
     }
 }
 
@@ -241,7 +247,7 @@ function displayResults() {
             <td>${escapeHtml(user.gothram || '-')}</td>
             <td>${escapeHtml(user.certifiedIn || '-')}</td>
             <td>
-                <button class="btn-view" type="button" onclick="viewUserDetails(${index})">View</button>
+                <button class="btn-view" type="button" onclick="viewUserDetails(${index})">${getText('search.viewBtn', 'View')}</button>
             </td>
         </tr>
     `).join('');
@@ -256,31 +262,31 @@ function viewUserDetails(index) {
 
     detailsContainer.innerHTML = `
         <div class="user-details-card">
-            <div class="card-header">Application for ${escapeHtml(formatName(user))}</div>
+            <div class="card-header">${escapeHtml(formatName(user))}</div>
             <div class="card-body">
                 <div class="detail-list">
-                    <div class="detail-pill"><span class="label">Applicant Name</span><span class="value">${escapeHtml(formatName(user))}</span></div>
-                    <div class="detail-pill"><span class="label">Username</span><span class="value">${escapeHtml(user.username || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Email</span><span class="value">${escapeHtml(user.email || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Mobile</span><span class="value">${escapeHtml(user.mobile || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Role</span><span class="value">${escapeHtml(user.role || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">State</span><span class="value">${escapeHtml(user.state || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">District / City</span><span class="value">${escapeHtml(user.city || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Aadhaar</span><span class="value">${escapeHtml(user.aadhaar || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Date of Birth</span><span class="value">${escapeHtml(formatDate(user.dateOfBirth))}</span></div>
-                    <div class="detail-pill"><span class="label">Street Address 1</span><span class="value">${escapeHtml(user.street1 || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Street Address 2</span><span class="value">${escapeHtml(user.street2 || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Postal Code</span><span class="value">${escapeHtml(user.postalCode || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Vedham</span><span class="value">${escapeHtml(user.vedham || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Shaka</span><span class="value">${escapeHtml(user.shaka || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Gothram</span><span class="value">${escapeHtml(user.gothram || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Soothram</span><span class="value">${escapeHtml(user.soothram || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Patasalai</span><span class="value">${escapeHtml(user.patasalai || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Veda Adhyapakar</span><span class="value">${escapeHtml(user.adhyapakarName || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Certified In</span><span class="value">${escapeHtml(user.certifiedIn || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Year of Certification</span><span class="value">${escapeHtml(user.yearOfCertification || '-')}</span></div>
-                    <div class="detail-pill"><span class="label">Certificate</span><span class="value">${buildDownloadLink(user.certificatePath, 'Certificate')}</span></div>
-                    <div class="detail-pill"><span class="label">Photo</span><span class="value">${buildDownloadLink(user.photoPath, 'Photo')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.applicantName', 'Applicant Name')}</span><span class="value">${escapeHtml(formatName(user))}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.username', 'Username')}</span><span class="value">${escapeHtml(user.username || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.email', 'Email')}</span><span class="value">${escapeHtml(user.email || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.mobile', 'Mobile')}</span><span class="value">${escapeHtml(user.mobile || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.role', 'Role')}</span><span class="value">${escapeHtml(user.role || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.state', 'State')}</span><span class="value">${escapeHtml(user.state || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.city', 'District / City')}</span><span class="value">${escapeHtml(user.city || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.aadhaar', 'Aadhaar')}</span><span class="value">${escapeHtml(user.aadhaar || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.dob', 'Date of Birth')}</span><span class="value">${escapeHtml(formatDate(user.dateOfBirth))}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.street1', 'Street Address 1')}</span><span class="value">${escapeHtml(user.street1 || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.street2', 'Street Address 2')}</span><span class="value">${escapeHtml(user.street2 || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.postalCode', 'Postal Code')}</span><span class="value">${escapeHtml(user.postalCode || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.vedham', 'Vedham')}</span><span class="value">${escapeHtml(user.vedham || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.shaka', 'Shaka')}</span><span class="value">${escapeHtml(user.shaka || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.gothram', 'Gothram')}</span><span class="value">${escapeHtml(user.gothram || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.soothram', 'Soothram')}</span><span class="value">${escapeHtml(user.soothram || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.patasalai', 'Patasalai')}</span><span class="value">${escapeHtml(user.patasalai || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.adhyapakar', 'Veda Adhyapakar')}</span><span class="value">${escapeHtml(user.adhyapakarName || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.certifiedIn', 'Certified In')}</span><span class="value">${escapeHtml(user.certifiedIn || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.yearOfCertification', 'Year of Certification')}</span><span class="value">${escapeHtml(user.yearOfCertification || '-')}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.certificate', 'Certificate')}</span><span class="value">${buildDownloadLink(user.certificatePath, getText('search.detail.certificate', 'Certificate'))}</span></div>
+                    <div class="detail-pill"><span class="label">${getText('search.detail.photo', 'Photo')}</span><span class="value">${buildDownloadLink(user.photoPath, getText('search.detail.photo', 'Photo'))}</span></div>
                 </div>
             </div>
         </div>
@@ -300,7 +306,7 @@ function buildDownloadLink(filePath, label) {
 
 function exportFilteredUsers(format) {
     if (!filteredUsers.length) {
-        showAlert('There are no filtered users to export.', 'warning');
+        showAlert(getText('search.noFilteredUsers', 'There are no filtered users to export.'), 'warning');
         return;
     }
     exportTo(format, filteredUsers, 'filtered_users');
@@ -308,7 +314,7 @@ function exportFilteredUsers(format) {
 
 function exportAllUsers(format) {
     if (!allUsers.length) {
-        showAlert('There are no users to export.', 'warning');
+        showAlert(getText('search.noUsers', 'There are no users to export.'), 'warning');
         return;
     }
     exportTo(format, allUsers, 'all_users');
@@ -317,7 +323,7 @@ function exportAllUsers(format) {
 async function exportTo(format, data, filenamePrefix) {
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
-        showAlert('Authentication required to export data.', 'danger');
+        showAlert(getText('search.authRequired', 'Authentication required to export data.'), 'danger');
         return;
     }
 
@@ -344,10 +350,10 @@ async function exportTo(format, data, filenamePrefix) {
             link.click();
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
-            showAlert('Excel export started successfully.', 'success');
+            showAlert(getText('search.exportSuccess', 'Excel export started successfully.'), 'success');
         } catch (error) {
             console.error('Excel export failed:', error);
-            showAlert('Excel export failed. Please try again.', 'danger');
+            showAlert(getText('search.exportFailed', 'Excel export failed. Please try again.'), 'danger');
         }
         return;
     }
@@ -359,7 +365,7 @@ async function exportTo(format, data, filenamePrefix) {
     link.download = `${filenamePrefix}_${new Date().getTime()}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-    showAlert('CSV export started successfully.', 'success');
+    showAlert(getText('search.csvExportSuccess', 'CSV export started successfully.'), 'success');
 }
 
 function convertToCSV(data) {

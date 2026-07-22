@@ -18,6 +18,12 @@ function initializeTranslator() {
     }
 }
 
+function getText(key, fallback = '') {
+    return (typeof Translator !== 'undefined' && Translator.getTranslation)
+        ? Translator.getTranslation(key)
+        : fallback;
+}
+
 /**
  * Initialize login form on page load
  */
@@ -40,13 +46,13 @@ async function handleLoginSubmit(e) {
 
     // Validate fields
     if (!usernameOrEmail || !password) {
-        showAlert('Please fill in all fields', 'warning');
+        showAlert(getText('login.fillAllFields', 'Please fill in all fields'), 'warning');
         return;
     }
 
     // If user entered an email, validate it; usernames are allowed too.
     if (usernameOrEmail.includes('@') && !isValidEmail(usernameOrEmail)) {
-        showAlert('Please enter a valid email address or username', 'warning');
+        showAlert(getText('login.validEmailOrUsername', 'Please enter a valid email address or username'), 'warning');
         return;
     }
 
@@ -54,7 +60,7 @@ async function handleLoginSubmit(e) {
     const submitBtn = document.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner-border"></span> Logging in...';
+    submitBtn.innerHTML = `<span class="spinner-border"></span> ${getText('login.inProgress', 'Logging in...')}`;
 
     try {
         const response = await fetch(`${LoginConfig.apiBaseUrl}${LoginConfig.loginEndpoint}`, {
@@ -89,7 +95,7 @@ async function handleLoginSubmit(e) {
                 localStorage.removeItem('rememberedEmail');
             }
 
-            showAlert('Login successful! Redirecting...', 'success');
+            showAlert(getText('login.successRedirect', 'Login successful! Redirecting...'), 'success');
 
             // Redirect to appropriate dashboard
             setTimeout(() => {
@@ -97,11 +103,11 @@ async function handleLoginSubmit(e) {
                 window.location.href = redirectUrl;
             }, LoginConfig.redirectDelay);
         } else {
-            showAlert(data.message || 'Login failed. Please try again.', 'danger');
+            showAlert(data.message || getText('login.failed', 'Login failed. Please try again.'), 'danger');
         }
     } catch (error) {
         console.error('Login error:', error);
-        showAlert('An error occurred. Please try again.', 'danger');
+        showAlert(getText('login.error', 'An error occurred. Please try again.'), 'danger');
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;

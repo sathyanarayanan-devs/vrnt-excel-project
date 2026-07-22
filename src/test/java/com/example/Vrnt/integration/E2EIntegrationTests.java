@@ -1,8 +1,8 @@
 package com.example.Vrnt.integration;
 
 import com.example.Vrnt.model.User;
-import com.example.Vrnt.Repository.UserRepository;
 import com.example.Vrnt.security.JwtUtil;
+import com.example.Vrnt.service.ExcelService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,14 +33,14 @@ public class E2EIntegrationTests {
         private MockMvc mockMvc;
 
         @Autowired
-        private UserRepository userRepository;
+        private ExcelService excelService;
 
         @Autowired
         private JwtUtil jwtUtil;
 
         @BeforeEach
         void setup() {
-                userRepository.deleteAll();
+                excelService.updateUsers(List.of());
 
                 // Seed an admin and a normal user
                 User admin = User.builder()
@@ -80,12 +81,8 @@ public class E2EIntegrationTests {
                                 .status("PENDING")
                                 .build();
 
-                if (admin != null) {
-                        userRepository.save(admin);
-                }
-                if (normal != null) {
-                        userRepository.save(normal);
-                }
+                excelService.addUser(admin);
+                excelService.addUser(normal);
         }
 
         @Test

@@ -37,7 +37,7 @@ class PageAccessControllerTest {
     void successHtmlPageIsServedDirectly() throws Exception {
         mockMvc.perform(get("/success.html"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Application Submitted Successfully")));
+                .andExpect(content().string(containsString("Application Submitted")));
     }
 
     @Test

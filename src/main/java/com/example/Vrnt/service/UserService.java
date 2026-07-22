@@ -6,7 +6,6 @@ import com.example.Vrnt.dto.RegisterRequest;
 import com.example.Vrnt.dto.RegisterResponse;
 import com.example.Vrnt.exception.UserAlreadyExistsException;
 import com.example.Vrnt.model.User;
-import com.example.Vrnt.Repository.UserRepository;
 import com.example.Vrnt.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
     private final ExcelService excelService;
     private final JwtUtil jwtUtil;
 
@@ -45,15 +43,15 @@ public class UserService {
         MultipartFile photoFile = request.getPhotoFile();
 
         // 1. Duplicate checks
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (excelService.existsByEmail(request.getEmail())) {
             throw new UserAlreadyExistsException(
                     "An account with email '" + request.getEmail() + "' already exists");
         }
-        if (userRepository.existsByMobile(request.getMobile())) {
+        if (excelService.existsByMobile(request.getMobile())) {
             throw new UserAlreadyExistsException(
                     "Mobile number '" + request.getMobile() + "' is already registered");
         }
-        if (userRepository.existsByAadhaar(request.getAadhaar())) {
+        if (excelService.existsByAadhaar(request.getAadhaar())) {
             throw new UserAlreadyExistsException(
                     "Aadhaar number '" + request.getAadhaar() + "' is already registered");
         }
@@ -62,7 +60,7 @@ public class UserService {
         String certPath = certFile != null && !certFile.isEmpty() ? saveFile(certFile) : null;
         String photoPath = photoFile != null && !photoFile.isEmpty() ? saveFile(photoFile) : null;
 
-        // 3. Build and save to MySQL
+        // 3. Build and save to Excel
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -93,7 +91,7 @@ public class UserService {
             String username = request.getEmail().contains("@")
                     ? request.getEmail().substring(0, request.getEmail().indexOf('@'))
                     : request.getEmail();
-            if (!userRepository.existsByUsername(username)) {
+            if (!excelService.existsByUsername(username)) {
                 user.setUsername(username);
             } else {
                 user.setUsername(username + UUID.randomUUID().toString().substring(0, 6));
@@ -101,28 +99,27 @@ public class UserService {
         }
 
         user.setRole(determineRole(user.getEmail()));
+        excelService.addUser(user);
+        log.info("✅ User saved to Excel: [{}] {} {}",
+                user.getFirstName(), user.getLastName(), user.getEmail());
 
-        User saved = userRepository.save(user);
-        log.info("✅ User saved to MySQL: [{}] {} {}",
-                saved.getFirstName(), saved.getLastName(), saved.getEmail());
-
-        // 4. Auto-save ALL users to Excel on local machine
-        excelService.saveExcelToLocalMachine();
-        log.info("✅ Excel file updated on local machine");
-
-        // 5. Return response without sensitive data
-        return toResponse(saved);
+        return toResponse(user);
     }
 
     public LoginResponse login(LoginRequest request) {
         String usernameOrEmail = request.getUsername().trim();
 
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Invalid username or password"));
+        User user = excelService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+        if (user == null) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
 
         if (user.getPassword() == null || !user.getPassword().equals(request.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        if (user.getRole() == null || user.getRole().isBlank()) {
+            user.setRole(determineRole(user.getEmail()));
         }
 
         return LoginResponse.builder()
@@ -137,20 +134,19 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException(
-                        "User not found with username: " + username));
+        return excelService.findByUsername(username);
     }
 
     public RegisterResponse getUserDetails(String usernameOrEmail) {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new RuntimeException(
-                        "User not found with identifier: " + usernameOrEmail));
+        User user = excelService.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+        if (user == null) {
+            throw new RuntimeException("User not found with identifier: " + usernameOrEmail);
+        }
         return toResponse(user);
     }
 
     public long countUsers() {
-        return userRepository.count();
+        return excelService.countUsers();
     }
 
     // ── ROLE DECISION HELPERS ─────────────────────────────
@@ -165,7 +161,7 @@ public class UserService {
 
     // ── GET ALL USERS ─────────────────────────────────────
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return excelService.getAllUsers();
     }
 
     public List<User> getUsers(String role, String query) {
@@ -212,28 +208,35 @@ public class UserService {
         if (id == null) {
             throw new RuntimeException("User id cannot be null");
         }
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
-                        "User not found with id: " + id));
+        return getAllUsers().stream()
+                .filter(user -> id.equals(user.getId()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     // ── GET USER BY EMAIL ─────────────────────────────────
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException(
-                        "User not found with email: " + email));
+        User user = excelService.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found with email: " + email);
+        }
+        return user;
     }
 
     // ── GET USER BY MOBILE ────────────────────────────────
     public User getUserByMobile(String mobile) {
-        return userRepository.findByMobile(mobile)
-                .orElseThrow(() -> new RuntimeException(
-                        "User not found with mobile: " + mobile));
+        User user = excelService.findByMobile(mobile);
+        if (user == null) {
+            throw new RuntimeException("User not found with mobile: " + mobile);
+        }
+        return user;
     }
 
     // ── GET USERS BY STATUS ───────────────────────────────
     public List<User> getUsersByStatus(String status) {
-        return userRepository.findByStatus(status);
+        return getAllUsers().stream()
+                .filter(user -> status != null && status.equalsIgnoreCase(user.getStatus()))
+                .toList();
     }
 
     // ── UPDATE USER STATUS ────────────────────────────────
@@ -241,13 +244,18 @@ public class UserService {
         User user = getUserById(id);
         user.setStatus(status);
         user.setUpdatedAt(LocalDateTime.now());
-        User updated = userRepository.save(user);
-
-        // Update Excel after status change
-        excelService.saveExcelToLocalMachine();
+        List<User> users = getAllUsers();
+        for (User currentUser : users) {
+            if (currentUser.getId() != null && currentUser.getId().equals(user.getId())) {
+                currentUser.setStatus(status);
+                currentUser.setUpdatedAt(LocalDateTime.now());
+                break;
+            }
+        }
+        excelService.updateUsers(users);
         log.info("User status updated: {} -> {}", user.getEmail(), status);
 
-        return updated;
+        return user;
     }
 
     // ── UPDATE USER DETAILS ───────────────────────────────
@@ -289,13 +297,47 @@ public class UserService {
 
         existingUser.setUpdatedAt(LocalDateTime.now());
 
-        User updated = userRepository.save(existingUser);
+        List<User> users = getAllUsers();
+        for (int i = 0; i < users.size(); i++) {
+            User currentUser = users.get(i);
+            if (currentUser.getId() != null && currentUser.getId().equals(existingUser.getId())) {
+                currentUser.setFirstName(request.getFirstName());
+                currentUser.setLastName(request.getLastName());
+                currentUser.setMobile(request.getMobile());
+                currentUser.setEmail(request.getEmail().toLowerCase());
+                currentUser.setStreet1(request.getStreet1());
+                currentUser.setStreet2(request.getStreet2());
+                currentUser.setCity(request.getCity());
+                currentUser.setState(request.getState());
+                currentUser.setPostalCode(request.getPostalCode());
+                currentUser.setAadhaar(request.getAadhaar());
+                currentUser.setDateOfBirth(request.getDateOfBirth());
+                currentUser.setVedham(request.getVedham());
+                currentUser.setShaka(request.getShaka());
+                currentUser.setGothram(request.getGothram());
+                currentUser.setSoothram(request.getSoothram());
+                currentUser.setPatasalai(request.getPatasalai());
+                currentUser.setAdhyapakarName(request.getAdhyapakarName());
+                currentUser.setCertifiedIn(request.getCertifiedIn());
+                currentUser.setYearOfCertification(request.getYearOfCertification());
+                currentUser.setUpdatedAt(LocalDateTime.now());
+                currentUser.setRole(determineRole(currentUser.getEmail()));
+                if (request.getCertFile() != null && !request.getCertFile().isEmpty()) {
+                    deleteFile(currentUser.getCertificatePath());
+                    currentUser.setCertificatePath(saveFile(request.getCertFile()));
+                }
+                if (request.getPhotoFile() != null && !request.getPhotoFile().isEmpty()) {
+                    deleteFile(currentUser.getPhotoPath());
+                    currentUser.setPhotoPath(saveFile(request.getPhotoFile()));
+                }
+                users.set(i, currentUser);
+                break;
+            }
+        }
+        excelService.updateUsers(users);
+        log.info("User updated: {}", existingUser.getEmail());
 
-        // Update Excel
-        excelService.saveExcelToLocalMachine();
-        log.info("User updated: {}", updated.getEmail());
-
-        return toResponse(updated);
+        return toResponse(existingUser);
     }
 
     // ── DELETE USER ───────────────────────────────────────
@@ -303,24 +345,23 @@ public class UserService {
         if (id == null) {
             throw new RuntimeException("User id cannot be null");
         }
-        User user = getUserById(id);
+        User existingUser = getUserById(id);
 
         // Delete associated files
-        deleteFile(user.getCertificatePath());
-        deleteFile(user.getPhotoPath());
+        deleteFile(existingUser.getCertificatePath());
+        deleteFile(existingUser.getPhotoPath());
 
-        userRepository.deleteById(id);
+        List<User> users = getAllUsers();
+        users.removeIf(currentUser -> id.equals(currentUser.getId()));
+        excelService.updateUsers(users);
         log.info("User deleted with id: {}", id);
-
-        // Update Excel after delete
-        excelService.saveExcelToLocalMachine();
     }
 
     // ── SEARCH USERS ──────────────────────────────────────
     public List<User> searchUsers(String keyword) {
-        return userRepository
-                .findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrMobileContainingOrUsernameContainingIgnoreCase(
-                        keyword, keyword, keyword, keyword, keyword);
+        return getAllUsers().stream()
+                .filter(user -> matchesKeyword(user, keyword))
+                .toList();
     }
 
     private boolean matchesKeyword(User user, String keyword) {
@@ -379,7 +420,10 @@ public class UserService {
 
     // ── GET USERS BY DATE RANGE ───────────────────────────
     public List<User> getUsersByDateRange(LocalDateTime start, LocalDateTime end) {
-        return userRepository.findByCreatedAtBetween(start, end);
+        return getAllUsers().stream()
+                .filter(user -> user.getCreatedAt() != null && !user.getCreatedAt().isBefore(start)
+                        && !user.getCreatedAt().isAfter(end))
+                .toList();
     }
 
     // ── HELPERS ───────────────────────────────────────────

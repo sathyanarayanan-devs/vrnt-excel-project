@@ -12,6 +12,12 @@ function initializeTranslator() {
     }
 }
 
+function getText(key, fallback = '') {
+    return (typeof Translator !== 'undefined' && Translator.getTranslation)
+        ? Translator.getTranslation(key)
+        : fallback;
+}
+
 /**
  * Initialize language buttons
  */
@@ -82,7 +88,7 @@ function setupNavigationLinks() {
             const authToken = localStorage.getItem('authToken');
             if (authToken) {
                 // User already logged in, show message or redirect
-                showAlert('You are already registered. Please visit your dashboard.', 'info');
+                showAlert(getText('index.alreadyRegistered', 'You are already registered. Please visit your dashboard.'), 'info');
                 e.preventDefault();
                 setTimeout(() => {
                     const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -99,7 +105,7 @@ function setupNavigationLinks() {
             const authToken = localStorage.getItem('authToken');
             if (authToken) {
                 e.preventDefault();
-                showAlert('You are already logged in.', 'info');
+                showAlert(getText('index.alreadyLoggedIn', 'You are already logged in.'), 'info');
                 setTimeout(() => {
                     const isAdmin = localStorage.getItem('isAdmin') === 'true';
                     window.location.href = isAdmin ? 'admin-dashboard.html' : 'user-dashboard.html';
@@ -118,7 +124,7 @@ function setupNavigationLinks() {
                 const requiresAuth = ['search.html', 'user-dashboard.html', 'admin-dashboard.html'].includes(href);
 
                 if (requiresAuth && !localStorage.getItem('authToken')) {
-                    showAlert('Please log in first.', 'warning');
+                    showAlert(getText('index.loginFirst', 'Please log in first.'), 'warning');
                     setTimeout(() => {
                         window.location.href = 'login.html';
                     }, 1500);

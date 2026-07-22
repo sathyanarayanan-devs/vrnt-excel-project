@@ -393,7 +393,7 @@ async function submitRegistration(event, form = document.getElementById('applica
                     if (dataOverride && typeof dataOverride === 'object') {
                         dataOverride.email = retryEmail;
                     }
-                    showAlert('A duplicate email was detected. Retrying with a fresh email address.', 'info');
+                    showAlert(getTranslation('form.duplicateEmail') || 'A duplicate email was detected. Retrying with a fresh email address.', 'info');
                     return submitRegistration(null, form, dataOverride, 1);
                 }
             }

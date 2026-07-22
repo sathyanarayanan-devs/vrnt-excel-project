@@ -6,7 +6,6 @@ import com.example.Vrnt.dto.RegisterRequest;
 import com.example.Vrnt.dto.RegisterResponse;
 import com.example.Vrnt.exception.UserAlreadyExistsException;
 import com.example.Vrnt.model.User;
-import com.example.Vrnt.Repository.UserRepository;
 import com.example.Vrnt.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,6 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -27,9 +24,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("nullness")
 class UserServiceTest {
-
-    @Mock
-    private UserRepository userRepository;
 
     @Mock
     private ExcelService excelService;
@@ -71,18 +65,10 @@ class UserServiceTest {
 
     @Test
     void registerUserWithDefaultNormalRole() throws IOException {
-        when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByMobile(anyString())).thenReturn(false);
-        when(userRepository.existsByAadhaar(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
-        when(userRepository.save(any())).thenAnswer(invocation -> {
-            Object argument = invocation.getArgument(0);
-            if (argument instanceof User savedUser) {
-                savedUser.setId(1L);
-                return savedUser;
-            }
-            return null;
-        });
+        when(excelService.existsByEmail(anyString())).thenReturn(false);
+        when(excelService.existsByMobile(anyString())).thenReturn(false);
+        when(excelService.existsByAadhaar(anyString())).thenReturn(false);
+        when(excelService.existsByUsername(anyString())).thenReturn(false);
 
         RegisterResponse response = userService.register(validRequest);
 
@@ -91,26 +77,17 @@ class UserServiceTest {
         assertNotNull(response.getUsername());
         assertEquals("arun@example.com", response.getEmail());
 
-        verify(userRepository).save(any());
-        verify(excelService).saveExcelToLocalMachine();
+        verify(excelService).addUser(any(User.class));
     }
 
     @Test
     void registerUserWithAdminRoleBasedOnEmailDomain() throws IOException {
         validRequest.setEmail("admin@vrnt.org");
 
-        when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.existsByMobile(anyString())).thenReturn(false);
-        when(userRepository.existsByAadhaar(anyString())).thenReturn(false);
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
-        when(userRepository.save(any())).thenAnswer(invocation -> {
-            Object argument = invocation.getArgument(0);
-            if (argument instanceof User savedUser) {
-                savedUser.setId(1L);
-                return savedUser;
-            }
-            return null;
-        });
+        when(excelService.existsByEmail(anyString())).thenReturn(false);
+        when(excelService.existsByMobile(anyString())).thenReturn(false);
+        when(excelService.existsByAadhaar(anyString())).thenReturn(false);
+        when(excelService.existsByUsername(anyString())).thenReturn(false);
 
         RegisterResponse response = userService.register(validRequest);
 
@@ -119,13 +96,12 @@ class UserServiceTest {
         assertNotNull(response.getUsername());
         assertEquals("admin@vrnt.org", response.getEmail());
 
-        verify(userRepository).save(any());
-        verify(excelService).saveExcelToLocalMachine();
+        verify(excelService).addUser(any(User.class));
     }
 
     @Test
     void registerUserFailsWhenEmailAlreadyExists() {
-        when(userRepository.existsByEmail(anyString())).thenReturn(true);
+        when(excelService.existsByEmail(anyString())).thenReturn(true);
 
         UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class,
                 () -> userService.register(validRequest));
@@ -150,8 +126,8 @@ class UserServiceTest {
                 .lastName("Kumar")
                 .build();
 
-        when(userRepository.findByUsernameOrEmail("arun@example.com", "arun@example.com"))
-                .thenReturn(Optional.of(user));
+        when(excelService.findByUsernameOrEmail("arun@example.com", "arun@example.com"))
+                .thenReturn(user);
         when(jwtUtil.generateToken("arun", "normal")).thenReturn("jwt-token");
 
         LoginResponse response = userService.login(loginRequest);
@@ -176,8 +152,8 @@ class UserServiceTest {
                 .role("normal")
                 .build();
 
-        when(userRepository.findByUsernameOrEmail("arun@example.com", "arun@example.com"))
-                .thenReturn(Optional.of(user));
+        when(excelService.findByUsernameOrEmail("arun@example.com", "arun@example.com"))
+                .thenReturn(user);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> userService.login(loginRequest));
@@ -191,8 +167,8 @@ class UserServiceTest {
         loginRequest.setUsername("unknown@example.com");
         loginRequest.setPassword("Secret123");
 
-        when(userRepository.findByUsernameOrEmail("unknown@example.com", "unknown@example.com"))
-                .thenReturn(Optional.empty());
+        when(excelService.findByUsernameOrEmail("unknown@example.com", "unknown@example.com"))
+                .thenReturn(null);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> userService.login(loginRequest));
