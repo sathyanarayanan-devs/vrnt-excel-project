@@ -63,6 +63,7 @@ const TranslationDictionary = {
         hint_street2: "Street Address Line 2 (optional)",
         hint_city: "City / Town",
         hint_state: "State / Union Territory",
+        hint_aadhaar: "12-digit Aadhaar number",
         hint_postal: "PIN Code (6 digits)",
         hint_year: "e.g., 2020",
 
@@ -774,6 +775,7 @@ const TranslationDictionary = {
         hint_city: "నగరం / పట్టణం",
         hint_state:
             "రాష్ట్రం / కేంద్ర పాలిత ప్రాంతం",
+        hint_aadhaar: "12 అంకెల ఆధార్ నంబర్",
         hint_postal: "పిన్ కోడ్ (6 అంకెలు)",
         hint_year: "ఉదా: 2020",
 
@@ -1117,6 +1119,7 @@ const TranslationDictionary = {
         hint_city: "शहर / नगर",
         hint_state:
             "राज्य / केंद्र शासित प्रदेश",
+        hint_aadhaar: "12-अंकीय आधार नंबर",
         hint_postal: "पिन कोड (6 अंक)",
         hint_year: "उदा: 2020",
 

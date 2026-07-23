@@ -14,7 +14,7 @@
 
   <header class="hero-header" role="banner">
     <div class="header-content" style="padding: 0; max-width: 100%;">
-      <img src="images/header_new.svg" alt="Veda Rakshana Nidhi Trust"
+      <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust"
         style="width: 100%; max-width: 900px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
     </div>
     <!-- LANGUAGE SELECTOR BUTTONS (right side) -->
@@ -24,7 +24,7 @@
       <button class="lang-btn" data-lang="te">తెలుగు</button>
       <button class="lang-btn" data-lang="hi">हिन्दी</button>
     </div>
-    <h2 class="header-main-title">Veda Rakshana Nidhi Trust</h2>
+    <h2 class="header-main-title" data-i18n="site.title">Veda Rakshana Nidhi Trust</h2>
   </header>
 
   <!-- ══════════════════════════════════════════════════════
@@ -65,14 +65,14 @@
             <label for="first_name"><span data-i18n="lbl_first_name">First Name</span> <span
                 class="required-star">*</span></label>
             <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name"
-              data-i18n="hint_first_name" aria-required="true" autocomplete="given-name" />
+              data-i18n-placeholder="hint_first_name" aria-required="true" autocomplete="given-name" />
             <span class="error-msg" id="first_name_err"></span>
           </div>
           <div class="form-group">
             <label for="last_name"><span data-i18n="lbl_last_name">Last Name</span> <span
                 class="required-star">*</span></label>
             <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name"
-              data-i18n="hint_last_name" aria-required="true" autocomplete="family-name" />
+              data-i18n-placeholder="hint_last_name" aria-required="true" autocomplete="family-name" />
             <span class="error-msg" id="last_name_err"></span>
           </div>
         </div>
@@ -87,8 +87,8 @@
                 style="background:#FCF4E8;border:1px solid #ccc;padding:8px 10px;border-radius:4px;font-size:14px;font-weight:600;color:#8F5307;white-space:nowrap;">🇮🇳
                 +91</span>
               <input type="text" id="mobile" name="mobile" class="form-control" placeholder="98765 43210" maxlength="10"
-                data-i18n="hint_mobile" inputmode="numeric" pattern="[0-9]*" aria-required="true" autocomplete="tel"
-                style="flex:1;" />
+                data-i18n-placeholder="hint_mobile" inputmode="numeric" pattern="[0-9]*" aria-required="true"
+                autocomplete="tel" style="flex:1;" />
             </div>
             <span class="field-hint">10-digit Indian mobile (starts with 6, 7, 8 or 9)</span>
             <span class="error-msg" id="mobile_err"></span>
@@ -96,14 +96,14 @@
           <div class="form-group">
             <label for="email"><span data-i18n="lbl_email">Email ID</span> <span class="required-star">*</span></label>
             <input type="email" id="email" name="email" class="form-control" placeholder="example@example.com"
-              data-i18n="hint_email" aria-required="true" autocomplete="email" />
+              data-i18n-placeholder="hint_email" aria-required="true" autocomplete="email" />
             <span class="error-msg" id="email_err"></span>
           </div>
           <div class="form-group">
             <label for="password"><span data-i18n="lbl_password">Password</span> <span
                 class="required-star">*</span></label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Enter a password"
-              aria-required="true" autocomplete="new-password" minlength="6" />
+              data-i18n-placeholder="hint_password" aria-required="true" autocomplete="new-password" minlength="6" />
             <span class="field-hint" data-i18n="hint_password">Minimum 6 characters</span>
             <span class="error-msg" id="password_err"></span>
           </div>
@@ -114,14 +114,14 @@
         <div class="form-row single">
           <div class="form-group">
             <input type="text" id="street1" name="street1" class="form-control" placeholder="Street Address Line 1"
-              data-i18n="hint_street1" aria-label="Street Address Line 1" aria-required="true"
+              data-i18n-placeholder="hint_street1" aria-label="Street Address Line 1" aria-required="true"
               autocomplete="address-line1" />
             <span class="error-msg" id="street1_err"></span>
           </div>
         </div>
         <div class="form-row single">
           <div class="form-group">
-            <input type="text" id="street2" name="street2" class="form-control" data-i18n="hint_street2"
+            <input type="text" id="street2" name="street2" class="form-control" data-i18n-placeholder="hint_street2"
               placeholder="Street Address Line 2 (optional)" aria-label="Street Address Line 2"
               autocomplete="address-line2" />
           </div>
@@ -129,19 +129,19 @@
         <div class="form-row triple">
           <div class="form-group">
             <input type="text" id="city" name="city" class="form-control" placeholder="City / Town" aria-label="City"
-              data-i18n="hint_city" aria-required="true" autocomplete="address-level2" />
+              data-i18n-placeholder="hint_city" aria-required="true" autocomplete="address-level2" />
             <span class="field-hint" data-i18n="lbl_city">City</span>
             <span class="error-msg" id="city_err"></span>
           </div>
           <div class="form-group">
             <input type="text" id="state" name="state" class="form-control" placeholder="State" aria-label="State"
-              data-i18n="hint_state" aria-required="true" autocomplete="address-level1" />
+              data-i18n-placeholder="hint_state" aria-required="true" autocomplete="address-level1" />
             <span class="field-hint" data-i18n="lbl_state">State</span>
             <span class="error-msg" id="state_err"></span>
           </div>
           <div class="form-group">
             <input type="text" id="postalCode" name="postalCode" class="form-control" placeholder="PIN Code (6 digits)"
-              data-i18n="hint_postal" aria-label="PIN Code" aria-required="true" autocomplete="postal-code"
+              data-i18n-placeholder="hint_postal" aria-label="PIN Code" aria-required="true" autocomplete="postal-code"
               maxlength="6" inputmode="numeric" pattern="[0-9]*" />
             <span class="field-hint">PIN Code (6 digits)</span>
             <span class="error-msg" id="postalCode_err"></span>
@@ -154,7 +154,8 @@
             <label for="aadhaar"><span data-i18n="lbl_aadhaar">Aadhaar Number</span> <span
                 class="required-star">*</span></label>
             <input type="text" id="aadhaar" name="aadhaar" class="form-control" placeholder="12-digit Aadhaar number"
-              maxlength="12" inputmode="numeric" pattern="[0-9]*" aria-required="true" />
+              data-i18n-placeholder="hint_aadhaar" maxlength="12" inputmode="numeric" pattern="[0-9]*"
+              aria-required="true" />
             <span class="error-msg" id="aadhaar_err"></span>
           </div>
           <div class="form-group">
@@ -216,7 +217,8 @@
           <div class="form-group">
             <label for="yearOfCertification" data-i18n="lbl_year_cert">Year of Certification</label>
             <input type="text" id="yearOfCertification" name="yearOfCertification" class="form-control"
-              placeholder="e.g., 2020" data-i18n="hint_year" inputmode="numeric" maxlength="4" pattern="[0-9]*" />
+              placeholder="e.g., 2020" data-i18n-placeholder="hint_year" inputmode="numeric" maxlength="4"
+              pattern="[0-9]*" />
             <span class="error-msg" id="yearOfCertification_err"></span>
           </div>
         </div>
