@@ -255,38 +255,68 @@ body.page-home .navbar {
 ════════════════════════════════════════════════════════════ */
 
 .hero-header {
-    background: var(--bg-white);
-    padding: 20px 40px;
+    background-color: #6b3a2a;
+    /* warm brown header matching site image */
+    color: #f5cf6b;
+    /* golden title color */
+    padding: 22px 18px;
     box-shadow: var(--shadow-md);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    border-bottom: 4px solid rgba(242, 193, 76, 0.12);
 }
 
 .header-content {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 20px;
-    flex: 1;
-    max-width: 900px;
+    width: 100%;
+    max-width: 1100px;
 }
 
 .header-content img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 .header-main-title {
-    color: var(--primary-color);
-    font-size: 24px;
+    color: #f5cf6b;
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
     text-align: center;
-    flex: 1;
+    margin-top: 6px;
+}
+
+/* language buttons in header */
+.hero-header .lang-switcher,
+.hero-header .lang-btn,
+.hero-header .lang-selector {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-header .lang-btn,
+.hero-header .lang-selector .lang-btn {
+    background: rgba(245, 207, 107, 0.12);
+    color: #fff;
+    border: 1px solid rgba(245, 207, 107, 0.16);
+    padding: 6px 10px;
+    border-radius: 18px;
+    font-weight: 600;
+}
+
+.hero-header .lang-btn.active {
+    background: #f5cf6b;
+    color: #6b3a2a;
 }
 
 /* Language Switcher */
@@ -863,6 +893,51 @@ body.page-home .navbar {
 
 .site-footer p {
     margin: 0;
+}
+
+/* Hero CTA box used on index */
+.hero-cta {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(65, 42, 15, 0.12);
+}
+
+.hero-cta h3 {
+    color: #fff;
+    font-size: 1.6rem;
+}
+
+.hero-cta p {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Header row used across pages to align title and language buttons */
+.header-row {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 8px;
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .lang-switcher {
+        justify-content: flex-start;
+    }
 }
 
 /* ════════════════════════════════════════════════════════════

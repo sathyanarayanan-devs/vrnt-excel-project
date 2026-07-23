@@ -87,29 +87,31 @@ body.page-admin-dashboard {
 
 .hero-header,
 .dashboard-hero {
+    background-color: #6b3a2a;
+    color: #f5cf6b;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 24px 18px;
+    gap: 12px;
+    padding: 22px 18px;
     margin-bottom: 24px;
-    background: #fff;
-    border-radius: 22px;
+    width: 100%;
+    border-radius: 18px;
     box-shadow: var(--shadow-card);
 }
 
 .hero-header .header-content,
 .dashboard-hero .header-content {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1100px;
 }
 
 .hero-header .header-main-title,
 .dashboard-hero .header-main-title {
     margin: 0;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    color: var(--primary);
+    color: #f5cf6b;
     text-align: center;
 }
 

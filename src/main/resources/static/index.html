@@ -74,9 +74,18 @@
             <div class="hero-header">
                 <div class="header-content" style="padding: 0; max-width: 100%;">
                     <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust" class="img-fluid rounded mb-4"
-                        style="max-width: 900px; width: 100%; height: auto; display: block; margin: 0 auto;">
+                        style="max-width: 1100px; width: 100%; height: auto; display: block; margin: 0 auto;">
                 </div>
-                <h2 class="header-main-title" data-i18n="site.title">VRNT - Veda Rakshana Nidhi Trust</h2>
+                <div class="header-row"
+                    style="width:100%; max-width:1100px; display:flex; align-items:center; justify-content:space-between; gap:12px; margin:auto;">
+                    <h2 class="header-main-title" data-i18n="site.title">VRNT - Veda Rakshana Nidhi Trust</h2>
+                    <div class="lang-switcher d-flex gap-1">
+                        <button class="lang-btn" data-lang="en">English</button>
+                        <button class="lang-btn" data-lang="ta">தமிழ்</button>
+                        <button class="lang-btn" data-lang="te">తెలుగు</button>
+                        <button class="lang-btn" data-lang="hi">हिन्दी</button>
+                    </div>
+                </div>
             </div>
             <h5 class="fw-bold" data-i18n="hero.greeting">SRI GURUBYO NAMAHA</h5>
 
@@ -97,6 +106,23 @@
                 <a href="/login" class="btn btn-dark btn-lg me-3" data-i18n="button.login">Login</a>
                 <a href="/register" class="btn btn-outline-dark btn-lg" data-i18n="button.register">Register</a>
             </div>
+
+            <div class="hero-cta mt-4"
+                style="max-width:1100px; margin:24px auto 0; display:flex; align-items:center; gap:16px; background: linear-gradient(135deg,#d78f08,#f1b53b); padding:24px; border-radius:12px;">
+                <div style="flex:1; color:#fff">
+                    <h3 style="margin:0; font-weight:700;">Shasti Aptha Purti Mahotsav</h3>
+                    <p style="margin:6px 0 0; opacity:0.95;">Celebrating 60 Years of Veda Rakshana. We cordially request
+                        all certified Vidwans to register for the Diamond Jubilee celebrations.</p>
+                    <a href="register.html" class="btn btn-light"
+                        style="margin-top:10px; background:#fff8e1; color:#6b3a2a; font-weight:700; border-radius:8px; padding:10px 18px; display:inline-block;">REGISTER
+                        NOW</a>
+                </div>
+                <div style="width:160px; text-align:center;">
+                    <!-- placeholder decorative area -->
+                    <img src="images/header_new.png" alt="banner small"
+                        style="max-width:140px; border-radius:8px; opacity:0.95;">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -107,6 +133,10 @@
     <!-- LANGUAGE TRANSLATION SCRIPT (simple dictionary-based) -->
     <script src="scripts/translator.js"></script>
     <script src="scripts/index.js"></script>
+
+    <footer class="site-footer">
+        <p data-i18n="footer.copyright">© 2025 Veda Rakshana Nidhi Trust. All rights reserved.</p>
+    </footer>
 
 </body>
 
