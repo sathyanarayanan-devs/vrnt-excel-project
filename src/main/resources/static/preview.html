@@ -132,17 +132,18 @@
             if (!container) return;
 
             if (!Object.keys(data).length) {
-                container.innerHTML = '<div class="alert alert-danger show">No application data was found. Please go back and complete the form.</div>';
+                const msg = typeof getTranslation === 'function' ? getTranslation('preview.noData') : 'No application data was found. Please go back and complete the form.';
+                container.innerHTML = `<div class="alert alert-danger show">${msg}</div>`;
                 return;
             }
 
             const sections = [
                 {
-                    title: 'Personal Details',
+                    name: 'personal',
                     fields: ['first_name', 'last_name', 'mobile', 'email', 'password', 'street1', 'street2', 'city', 'state', 'postalCode', 'aadhaar', 'dateOfBirth']
                 },
                 {
-                    title: 'Vedic Details',
+                    name: 'vedic',
                     fields: ['vedham', 'shaka', 'gothram', 'soothram', 'patasalai', 'adhyapakarName', 'certifiedIn', 'yearOfCertification']
                 }
             ];
@@ -152,16 +153,19 @@
                     .filter(field => Object.prototype.hasOwnProperty.call(data, field) && data[field] !== '')
                     .map(field => `
                         <div class="form-group preview-field">
-                            <label>${getFieldLabel(field)}</label>
+                            <label>${typeof getPreviewFieldLabel === 'function' ? getPreviewFieldLabel(field) : getFieldLabel(field)}</label>
                             <div class="preview-value">${formatPreviewValue(field, data[field])}</div>
                         </div>
                     `)
                     .join('');
 
+                const sectionTitle = typeof getPreviewSectionTitle === 'function' ? getPreviewSectionTitle(section.name) : '';
+                const noDetails = typeof getTranslation === 'function' ? getTranslation('preview.noDetails') : 'No details provided.';
+
                 return `
                     <section class="preview-section">
-                        <div class="section-title">${section.title}</div>
-                        <div class="preview-grid">${rows || '<p class="text-muted">No details provided.</p>'}</div>
+                        <div class="section-title">${sectionTitle}</div>
+                        <div class="preview-grid">${rows || `<p class="text-muted">${noDetails}</p>`}</div>
                     </section>
                 `;
             }).join('');
