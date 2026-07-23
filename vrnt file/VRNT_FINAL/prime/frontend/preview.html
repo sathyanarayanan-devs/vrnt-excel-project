@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veda Rakshana Nidhi Trust – Application Preview</title>
+    <meta name="description" content="Review your application before submitting to Veda Rakshana Nidhi Trust." />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        .info-banner {
+            background: #e8f0fe;
+            border-left: 4px solid #1a3a5c;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1a3a5c;
+            margin-bottom: 20px;
+        }
+
+        .submitting-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .submitting-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .submitting-text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="submitting-overlay" id="submittingOverlay">
+        <div class="spinner"></div>
+        <p class="submitting-text">Submitting your application…</p>
+    </div>
+
+    <header class="hero-header" role="banner">
+        <div class="lang-switcher">
+            <select id="langSelect" class="lang-select" onchange="setLanguage(this.value)" aria-label="Select Language">
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="te">తెలుగు</option>
+            </select>
+        </div>
+        <div class="header-content" style="padding: 0; max-width: 100%; text-align: center;">
+            <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust" style="width: 100%; max-width: 950px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
+        </div>
+    </header>
+
+    <main class="page-wrapper">
+        <div class="form-card">
+
+            <div class="step-progress">
+                <div class="step-item">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label" data-i18n="step_personal">Personal Details</span>
+                </div>
+                <div class="step-line done"></div>
+                <div class="step-item">
+                    <div class="step-circle active">2</div>
+                    <span class="step-label active" data-i18n="step_preview">Preview</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <span class="step-label" data-i18n="step_submit">Submit</span>
+                </div>
+            </div>
+
+            <h2 class="form-card-title" data-i18n="preview_title">Application Preview</h2>
+
+            <div class="info-banner">
+                ℹ️ Please review all details carefully. Click <strong>Edit Form</strong> to make corrections, or
+                <strong>Confirm &amp; Submit</strong> to submit your application.
+            </div>
+
+            <!-- Personal Details -->
+            <div class="preview-card">
+                <div class="preview-section-title" data-i18n="section_personal">Personal Details</div>
+                <div class="preview-grid">
+                    <div class="preview-item"><label data-i18n="lbl_first_name">First Name</label><span id="pv_first_name">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_last_name">Last Name</label><span id="pv_last_name">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_mobile">Mobile Number</label><span id="pv_mobile">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_email">Email ID</label><span id="pv_email">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_street1">Street Address</label><span id="pv_street">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_city">City</label><span id="pv_city">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_state">State</label><span id="pv_state">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_postal">PIN Code</label><span id="pv_postal">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_aadhaar">Aadhaar Number</label><span id="pv_aadhaar">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_dob">Date of Birth</label><span id="pv_dob">—</span></div>
+                </div>
+            </div>
+
+            <!-- Vedic Details -->
+            <div class="preview-card">
+                <div class="preview-section-title" data-i18n="section_vedic">Vedic Details</div>
+                <div class="preview-grid">
+                    <div class="preview-item"><label data-i18n="lbl_vedham">Vedham</label><span id="pv_vedham">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_shaka">Shaka</label><span id="pv_shaka">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_gothram">Gothram</label><span id="pv_gothram">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_soothram">Soothram</label><span id="pv_soothram">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_patasalai">Patasalai</label><span id="pv_patasalai">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_adhyapakar">Veda Adhyapakar's Name</label><span id="pv_adhyapakar">—</span>
+                    </div>
+                    <div class="preview-item"><label data-i18n="lbl_certified_in">Certified In</label><span id="pv_certified_in">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_year_cert">Year of Certification</label><span id="pv_year_cert">—</span></div>
+                </div>
+            </div>
+
+            <!-- Uploaded Files -->
+            <div class="preview-card">
+                <div class="preview-section-title" data-i18n="section_upload">Document Upload</div>
+                <div class="preview-grid">
+                    <div class="preview-item"><label data-i18n="lbl_cert_upload">Certificate</label><span id="pv_cert_file">—</span></div>
+                    <div class="preview-item"><label data-i18n="lbl_photo_upload">Passport Photo</label><span id="pv_photo_file">—</span></div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-row">
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'" data-i18n="btn_edit">← Edit Form</button>
+                <button class="btn btn-success" id="confirmBtn" onclick="handleConfirm()" data-i18n="btn_confirm">Confirm &amp; Submit</button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Veda Rakshana Nidhi Trust. All rights reserved.</p>
+    </footer>
+
+    <script src="js/translations.js"></script>
+    <script>
+        const STORAGE_KEY = 'vrnt_form_draft';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            populatePreview();
+        });
+
+        function populatePreview() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) { window.location.href = 'index.html'; return; }
+            const d = JSON.parse(raw);
+
+            const set = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val || '—';
+            };
+
+            set('pv_first_name', d.first_name);
+            set('pv_last_name', d.last_name);
+            set('pv_mobile', d.mobile ? '+91 ' + d.mobile : '—');
+            set('pv_email', d.email);
+            set('pv_street', [d.street1, d.street2].filter(Boolean).join(', '));
+            set('pv_city', d.city);
+            set('pv_state', d.state);
+            set('pv_postal', d.postal);
+            set('pv_aadhaar', d.aadhaar ? 'XXXX XXXX ' + d.aadhaar.slice(-4) : '—');
+            set('pv_dob', d.dob ? formatDate(d.dob) : '—');
+            set('pv_vedham', d.vedham);
+            set('pv_shaka', d.shaka);
+            set('pv_gothram', d.gothram);
+            set('pv_soothram', d.soothram);
+            set('pv_patasalai', d.patasalai);
+            set('pv_adhyapakar', d.adhyapakar);
+            set('pv_certified_in', d.certified_in);
+            set('pv_year_cert', d.year_cert);
+            set('pv_cert_file', d.cert_filename || 'Not uploaded');
+            set('pv_photo_file', d.photo_filename || 'Not uploaded');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            const [y, m, d] = dateStr.split('-');
+            return `${d}-${m}-${y}`;
+        }
+
+        // ── Confirm & Submit: generate reference ID, clear draft, go to success ──
+        function handleConfirm() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) { alert('No form data found. Please fill the form again.'); return; }
+
+            // Generate unique reference number
+            const refNo = 'VRNT' + Date.now().toString().slice(-8);
+
+            // Store ref number for success page to display
+            localStorage.setItem('vrnt_ref_no', refNo);
+
+            // Clear draft — form will be blank next time
+            localStorage.removeItem(STORAGE_KEY);
+
+            // Show brief overlay then redirect
+            document.getElementById('submittingOverlay').classList.add('show');
+            document.getElementById('confirmBtn').disabled = true;
+
+            setTimeout(() => {
+                window.location.href = 'success.html';
+            }, 1000);
+        }
+    </script>
+
+</body>
+
+</html>

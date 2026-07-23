@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veda Rakshana Nidhi Trust – Submitted Successfully</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        .success-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            max-width: 420px;
+            margin: 0 auto 28px;
+        }
+
+        .success-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 13.5px;
+            color: #444;
+        }
+
+        .success-step-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #27ae60;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-header" role="banner">
+        <div class="lang-switcher">
+            <select id="langSelect" class="lang-select" onchange="setLanguage(this.value)" aria-label="Select Language">
+                <option value="en">English</option>
+                <option value="ta">தமிழ்</option>
+                <option value="te">తెలుగు</option>
+            </select>
+        </div>
+        <div class="header-content" style="padding: 0; max-width: 100%; text-align: center;">
+            <img src="images/header_new.png" alt="Veda Rakshana Nidhi Trust" style="width: 100%; max-width: 950px; height: auto; display: block; margin: 0 auto; clip-path: inset(1px 3px);">
+        </div>
+    </header>
+
+    <main class="page-wrapper">
+        <div class="form-card">
+
+            <!-- Step Progress – All done -->
+            <div class="step-progress">
+                <div class="step-item">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label" data-i18n="step_personal">Personal Details</span>
+                </div>
+                <div class="step-line done"></div>
+                <div class="step-item">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label" data-i18n="step_preview">Preview</span>
+                </div>
+                <div class="step-line done"></div>
+                <div class="step-item">
+                    <div class="step-circle done">✓</div>
+                    <span class="step-label" data-i18n="step_submit">Submit</span>
+                </div>
+            </div>
+
+            <div class="success-container">
+                <div class="success-icon">✅</div>
+                <h2 class="success-title" data-i18n="success_title">Application Submitted Successfully!</h2>
+                <p class="success-subtitle" data-i18n="success_subtitle">
+                    Your application has been received. Please note your reference number.
+                </p>
+
+                <div class="app-ref-box">
+                    <span data-i18n="ref_label">Reference No.</span>: <span id="refNo">—</span>
+                </div>
+
+                <div class="success-steps">
+                    <div class="success-step">
+                        <div class="success-step-icon">✓</div>
+                        <div>Application form submitted with all personal and vedic details.</div>
+                    </div>
+                    <div class="success-step">
+                        <div class="success-step-icon">✓</div>
+                        <div>Your application details have been <strong>automatically downloaded</strong> as an Excel
+                            (.xlsx) file to your computer.</div>
+                    </div>
+                    <div class="success-step">
+                        <div class="success-step-icon">✓</div>
+                        <div>Your application is under review. We will contact you on your registered mobile / email.
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="max-width:300px;margin:0 auto;display:block;"
+                    onclick="startNewApplication()" data-i18n="btn_new_app">Submit Another Application</button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2025 Veda Rakshana Nidhi Trust. All rights reserved.</p>
+    </footer>
+
+    <script src="js/translations.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            const refNo = localStorage.getItem('vrnt_ref_no') || '—';
+            document.getElementById('refNo').textContent = refNo;
+            // Clear all stored data — next form open will be blank
+            localStorage.removeItem('vrnt_form_draft');
+            localStorage.removeItem('vrnt_ref_no');
+        });
+
+        function startNewApplication() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
